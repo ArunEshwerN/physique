@@ -5,7 +5,8 @@ shoulders, a full upper chest, lat width, visible abs. Built around one adjustab
 two dumbbells, a pull-up bar and 64 kg of cast iron. Four sessions a week, none longer than
 an hour.
 
-**Read it here → https://aruneshwern.github.io/physique/**
+**The plan → https://aruneshwern.github.io/physique/**
+**Block Zero, the pull-up tracker → https://aruneshwern.github.io/physique/pullups.html**
 
 | | |
 |---|---|
@@ -20,8 +21,17 @@ an hour.
 
 | File | |
 |---|---|
+| [`pullups.html`](pullups.html) | **Block Zero** — the assisted pull-up tracker. Rung ladder, session logger, and a projected unassisted date that recalculates from your real pace. Data stays in your browser. |
 | [`index.html`](index.html) | The full program as a website — reference rail, loading chart with true-scale plate discs, light and dark themes. Single file, no dependencies, works offline. |
-| [`PLAN.md`](PLAN.md) | The same program in plain Markdown, for reading in an editor or on a phone without a browser. |
+| [`PULLUPS.md`](PULLUPS.md) | Block Zero in Markdown — rules, session protocol, posture routine, and the handover into the main plan. |
+| [`PLAN.md`](PLAN.md) | The main program in Markdown, for reading in an editor or on a phone without a browser. |
+
+## Order of operations
+
+**Block Zero comes first.** Nothing in the main plan starts until the first clean unassisted
+pull-up — three sessions a week on the band ladder, each rung cleared twice before the next.
+One rule carries back: **hold bodyweight flat until that block is done**, because on a pull-up
+your bodyweight *is* the load.
 
 ## The short version
 

@@ -1,0 +1,1153 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Pull-Up Block — Assisted to Unassisted</title>
+<meta name="description" content="A rung-by-rung assisted pull-up tracker. Clear each rung twice, log every session, and watch the projected unassisted date move with your real pace.">
+<meta name="theme-color" content="#EDEEE8">
+<style>
+/* ============================================================
+   TOKENS — same system as the main plan: cast iron and brass
+   ============================================================ */
+:root {
+  --paper:#EDEEE8; --surface:#F8F9F4; --surface-2:#E4E6DE;
+  --ink:#191C1F; --ink-2:#565E65; --ink-3:#7C848B;
+  --rule:#D2D5CC; --rule-soft:#E1E3DB;
+  --accent:#8A6A20; --accent-ink:#6E5316; --accent-soft:#EDE2C2;
+  --good:#456B4C; --good-soft:#DFE8DE;
+  --warn:#8C3A2E; --warn-soft:#F0DFDA;
+  --shadow: 0 1px 2px rgba(25,28,31,.05), 0 8px 24px -12px rgba(25,28,31,.18);
+
+  --font-display:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+  --font-body:"Segoe UI Variable Text","Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+  --font-data:"Cascadia Mono","Cascadia Code",Consolas,"SF Mono",ui-monospace,"Roboto Mono",monospace;
+
+  --s1:.25rem; --s2:.5rem; --s3:.75rem; --s4:1rem;
+  --s5:1.5rem; --s6:2rem; --s7:3rem; --s8:4.5rem;
+  --measure:68ch; --rail:15rem;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper:#131519; --surface:#1B1E23; --surface-2:#23272D;
+    --ink:#E9EAE4; --ink-2:#98A0A7; --ink-3:#767E85;
+    --rule:#2A2F36; --rule-soft:#22262C;
+    --accent:#DCB865; --accent-ink:#EBCE8E; --accent-soft:#38300F;
+    --good:#7FAE86; --good-soft:#1E2A20; --warn:#D98878; --warn-soft:#2C1B18;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#131519; --surface:#1B1E23; --surface-2:#23272D;
+  --ink:#E9EAE4; --ink-2:#98A0A7; --ink-3:#767E85;
+  --rule:#2A2F36; --rule-soft:#22262C;
+  --accent:#DCB865; --accent-ink:#EBCE8E; --accent-soft:#38300F;
+  --good:#7FAE86; --good-soft:#1E2A20; --warn:#D98878; --warn-soft:#2C1B18;
+  --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.7);
+}
+:root[data-theme="light"]{
+  --paper:#EDEEE8; --surface:#F8F9F4; --surface-2:#E4E6DE;
+  --ink:#191C1F; --ink-2:#565E65; --ink-3:#7C848B;
+  --rule:#D2D5CC; --rule-soft:#E1E3DB;
+  --accent:#8A6A20; --accent-ink:#6E5316; --accent-soft:#EDE2C2;
+  --good:#456B4C; --good-soft:#DFE8DE; --warn:#8C3A2E; --warn-soft:#F0DFDA;
+  --shadow: 0 1px 2px rgba(25,28,31,.05), 0 8px 24px -12px rgba(25,28,31,.18);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms !important;transition-duration:.01ms !important}
+}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-body);
+  font-size:1rem;line-height:1.62;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{margin:0;font-weight:600;text-wrap:balance;line-height:1.18}
+p,ul,ol,table{margin:0}
+a{color:var(--accent-ink);text-underline-offset:.18em}
+a:hover{color:var(--ink)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+strong{font-weight:640;color:var(--ink)}
+
+.shell{display:grid;grid-template-columns:1fr;max-width:78rem;margin:0 auto;padding:0 var(--s5) var(--s8)}
+@media (min-width:1100px){
+  .shell{grid-template-columns:var(--rail) minmax(0,1fr);column-gap:var(--s8);padding-right:var(--s7)}
+}
+.rail{display:none}
+@media (min-width:1100px){
+  .rail{display:block;position:sticky;top:0;align-self:start;max-height:100vh;overflow-y:auto;
+    padding:var(--s7) var(--s4) var(--s6) 0;border-right:1px solid var(--rule-soft)}
+}
+.rail__label{font-family:var(--font-data);font-size:.6875rem;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--ink-3);margin-bottom:var(--s3)}
+.rail__nav{display:grid;gap:1px}
+.rail__nav a{display:block;padding:.3rem .4rem;font-size:.875rem;color:var(--ink-2);
+  text-decoration:none;border-radius:3px;border-left:2px solid transparent}
+.rail__nav a:hover{background:var(--surface);color:var(--ink)}
+.rail__nav a.is-active{border-left-color:var(--accent);color:var(--ink);background:var(--surface)}
+.rail__rule{height:1px;background:var(--rule-soft);margin:var(--s4) 0}
+.rail__back{font-family:var(--font-data);font-size:.6875rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-3);text-decoration:none;display:block;margin-bottom:var(--s5)}
+.rail__back:hover{color:var(--accent-ink)}
+
+.btn{display:inline-flex;align-items:center;gap:.45rem;padding:.45rem .85rem;
+  font-family:var(--font-data);font-size:.6875rem;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--ink-2);background:var(--surface);border:1px solid var(--rule);border-radius:999px;
+  cursor:pointer;line-height:1}
+.btn:hover{color:var(--ink);border-color:var(--ink-3)}
+.btn--go{color:var(--good);border-color:var(--good);background:var(--good-soft)}
+.btn--go:hover{color:var(--good);border-color:var(--good)}
+.btn--no{color:var(--warn);border-color:var(--warn);background:var(--warn-soft)}
+.btn--no:hover{color:var(--warn);border-color:var(--warn)}
+.btn--quiet{background:transparent;border-color:transparent;color:var(--ink-3);padding-left:.3rem;padding-right:.3rem}
+.btn--quiet:hover{color:var(--ink);border-color:var(--rule)}
+.toggle__dot{width:.5rem;height:.5rem;border-radius:50%;background:var(--accent)}
+
+/* ---------- masthead ---------- */
+.masthead{padding:var(--s7) 0 var(--s6);border-bottom:2px solid var(--ink)}
+.masthead__eyebrow{font-family:var(--font-data);font-size:.6875rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--accent-ink);margin-bottom:var(--s4)}
+.masthead h1{font-family:var(--font-display);font-size:clamp(2.2rem,6.5vw,3.9rem);
+  letter-spacing:-.022em;margin-bottom:var(--s4)}
+.masthead__lede{font-size:clamp(1.0625rem,2.2vw,1.1875rem);color:var(--ink-2);max-width:56ch;line-height:1.55}
+
+/* ---------- status tiles ---------- */
+.status{display:grid;grid-template-columns:repeat(auto-fit,minmax(11rem,1fr));gap:var(--s4);
+  margin-top:var(--s6)}
+.tile{border:1px solid var(--rule);border-radius:4px;background:var(--surface);
+  padding:var(--s4) var(--s5) var(--s5);box-shadow:var(--shadow);display:grid;gap:.15rem;align-content:start}
+.tile--lead{border-color:var(--accent);background:var(--accent-soft)}
+.tile dt{font-family:var(--font-data);font-size:.625rem;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--ink-3)}
+.tile--lead dt{color:var(--accent-ink)}
+.tile dd{margin:0;font-family:var(--font-data);font-variant-numeric:tabular-nums;
+  font-size:1.5rem;line-height:1.25;color:var(--ink)}
+.tile dd small{display:block;font-size:.75rem;color:var(--ink-3);letter-spacing:.02em;margin-top:.2rem}
+.tile--lead dd{color:var(--accent-ink)}
+.tile--lead dd small{color:var(--ink-2)}
+
+/* ---------- sections ---------- */
+.section{padding-top:var(--s8);scroll-margin-top:var(--s4)}
+.section__head{display:grid;gap:var(--s3);margin-bottom:var(--s5)}
+.section__kicker{font-family:var(--font-data);font-size:.6875rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--accent-ink);display:flex;align-items:center;gap:var(--s3)}
+.section__kicker::after{content:"";flex:1;height:1px;background:var(--rule)}
+.section h2{font-family:var(--font-display);font-size:clamp(1.75rem,4vw,2.5rem);letter-spacing:-.018em}
+.section h3{font-family:var(--font-display);font-size:1.375rem;letter-spacing:-.012em;margin-top:var(--s6)}
+.section h4{font-size:.9375rem;font-weight:640;margin-top:var(--s5)}
+.prose{display:grid;gap:var(--s4);max-width:var(--measure)}
+.prose ul,.prose ol{padding-left:1.15rem;display:grid;gap:.4rem}
+.prose li::marker{color:var(--ink-3)}
+.n{font-family:var(--font-data);font-variant-numeric:tabular-nums;font-size:.9375em}
+
+/* ---------- THE LADDER — signature element ---------- */
+.ladder{display:grid;gap:0;border:1px solid var(--rule);border-radius:4px;overflow:hidden;
+  background:var(--surface);box-shadow:var(--shadow)}
+.rung{display:grid;grid-template-columns:5.5rem minmax(3rem,1fr) auto;gap:var(--s4);
+  align-items:center;padding:.7rem var(--s4);border-top:1px solid var(--rule-soft)}
+.rung:first-child{border-top:0}
+.rung__name{font-family:var(--font-data);font-size:.8125rem;font-variant-numeric:tabular-nums;
+  color:var(--ink-2);white-space:nowrap}
+.rung__bar{height:9px;border-radius:2px;background:var(--surface-2);position:relative;overflow:hidden}
+.rung__bar span{position:absolute;inset:0 auto 0 0;background:var(--rule);border-radius:2px}
+.rung__state{font-family:var(--font-data);font-size:.6875rem;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--ink-3);white-space:nowrap;text-align:right;min-width:6.5rem}
+
+.rung.is-done{background:var(--good-soft)}
+.rung.is-done .rung__name{color:var(--good)}
+.rung.is-done .rung__bar span{background:var(--good);opacity:.55}
+.rung.is-done .rung__state{color:var(--good)}
+
+.rung.is-now{background:var(--accent-soft);border-top-color:var(--accent);
+  box-shadow:inset 3px 0 0 var(--accent)}
+.rung.is-now .rung__name{color:var(--accent-ink);font-weight:600}
+.rung.is-now .rung__bar span{background:var(--accent)}
+.rung.is-now .rung__state{color:var(--accent-ink)}
+
+.rung.is-goal .rung__name{color:var(--ink);font-weight:600}
+
+/* six-dot stage tracker for the live rung */
+.dots{display:inline-flex;gap:.28rem;align-items:center;vertical-align:middle}
+.dot{width:.55rem;height:.55rem;border-radius:50%;border:1px solid var(--accent);background:transparent}
+.dot.is-filled{background:var(--accent)}
+.dot.is-div{width:1px;height:.8rem;border:0;border-radius:0;background:var(--rule);margin:0 .1rem}
+
+/* ---------- logger ---------- */
+.logger{border:1px solid var(--rule);border-radius:4px;background:var(--surface);
+  box-shadow:var(--shadow);overflow:hidden}
+.logger__head{padding:var(--s4) var(--s5);background:var(--surface-2);
+  border-bottom:1px solid var(--rule);display:flex;flex-wrap:wrap;gap:var(--s3);align-items:baseline}
+.logger__title{font-family:var(--font-display);font-size:1.25rem}
+.logger__target{margin-left:auto;font-family:var(--font-data);font-size:.8125rem;
+  font-variant-numeric:tabular-nums;color:var(--accent-ink)}
+.logger__body{padding:var(--s5);display:grid;gap:var(--s4)}
+.logger__row{display:flex;flex-wrap:wrap;gap:var(--s3);align-items:center}
+.logger__hint{font-size:.875rem;color:var(--ink-2);max-width:60ch}
+input[type="date"],input[type="text"]{font-family:var(--font-data);font-size:.8125rem;
+  padding:.4rem .6rem;background:var(--paper);color:var(--ink);
+  border:1px solid var(--rule);border-radius:4px}
+input[type="text"]{flex:1;min-width:12rem;font-family:var(--font-body);font-size:.875rem}
+
+/* ---------- history ---------- */
+.tablewrap{overflow-x:auto;border:1px solid var(--rule);border-radius:4px;
+  background:var(--surface);box-shadow:var(--shadow)}
+table{width:100%;border-collapse:collapse;font-size:.9375rem}
+caption{caption-side:top;text-align:left;padding:var(--s3) var(--s4);font-family:var(--font-data);
+  font-size:.6875rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);
+  border-bottom:1px solid var(--rule-soft)}
+th,td{padding:.55rem var(--s4);text-align:left;vertical-align:top}
+thead th{font-family:var(--font-data);font-size:.625rem;font-weight:500;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--ink-3);border-bottom:1px solid var(--rule);white-space:nowrap}
+tbody tr+tr td{border-top:1px solid var(--rule-soft)}
+td.num,th.num{font-family:var(--font-data);font-variant-numeric:tabular-nums;white-space:nowrap}
+.sub{display:block;font-size:.8125rem;color:var(--ink-2);line-height:1.45;margin-top:.15rem}
+.pill{display:inline-block;padding:.1rem .5rem;border-radius:999px;font-family:var(--font-data);
+  font-size:.625rem;letter-spacing:.08em;text-transform:uppercase}
+.pill--go{background:var(--good-soft);color:var(--good)}
+.pill--no{background:var(--warn-soft);color:var(--warn)}
+
+/* ---------- callouts ---------- */
+.note{display:grid;gap:var(--s2);padding:var(--s4) var(--s5);border-left:3px solid var(--accent);
+  background:var(--accent-soft);border-radius:0 4px 4px 0;max-width:var(--measure);font-size:.9375rem}
+.note--stop{border-left-color:var(--warn);background:var(--warn-soft)}
+.note--go{border-left-color:var(--good);background:var(--good-soft)}
+.note__tag{font-family:var(--font-data);font-size:.625rem;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--ink-2)}
+
+/* ---------- protocol cards ---------- */
+.cards{display:grid;gap:var(--s5)}
+@media (min-width:60rem){.cards--2{grid-template-columns:1fr 1fr}}
+.card{border:1px solid var(--rule);border-radius:4px;background:var(--surface);
+  box-shadow:var(--shadow);overflow:hidden;display:grid;align-content:start}
+.card__head{display:flex;flex-wrap:wrap;align-items:baseline;gap:var(--s3);padding:var(--s4);
+  border-bottom:1px solid var(--rule);background:var(--surface-2)}
+.card__step{font-family:var(--font-data);font-size:.625rem;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--accent-ink)}
+.card__title{font-family:var(--font-display);font-size:1.25rem}
+.card__meta{margin-left:auto;font-family:var(--font-data);font-size:.75rem;
+  font-variant-numeric:tabular-nums;color:var(--ink-3)}
+.card .tablewrap{border:0;border-radius:0;box-shadow:none;background:transparent}
+
+/* ---------- done banner ---------- */
+.done{display:none;padding:var(--s5) var(--s6);border:2px solid var(--good);border-radius:4px;
+  background:var(--good-soft);margin-top:var(--s5)}
+.done.is-on{display:grid;gap:var(--s2)}
+.done h3{font-family:var(--font-display);font-size:1.75rem;color:var(--good);margin:0}
+.done p{max-width:60ch}
+
+.foot{margin-top:var(--s8);padding-top:var(--s5);border-top:1px solid var(--rule);
+  font-size:.875rem;color:var(--ink-3);display:grid;gap:var(--s2);max-width:var(--measure)}
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <aside class="rail">
+    <a class="rail__back" href="index.html">← The main plan</a>
+    <div class="rail__label">Contents</div>
+    <nav class="rail__nav" id="rail">
+      <a href="#now">Where you are</a>
+      <a href="#ladder">The ladder</a>
+      <a href="#log">Log a session</a>
+      <a href="#rules">The rules</a>
+      <a href="#session">The session</a>
+      <a href="#posture">Posture routine</a>
+      <a href="#apt">On the tilt</a>
+      <a href="#weight">Weight, while you climb</a>
+      <a href="#after">Day one after</a>
+      <a href="#history">History</a>
+    </nav>
+    <button class="btn" type="button" id="themeBtn" style="margin-top:var(--s4)">
+      <span class="toggle__dot" aria-hidden="true"></span><span id="themeLabel">Dark</span>
+    </button>
+  </aside>
+
+  <main>
+
+    <header class="masthead">
+      <div class="masthead__eyebrow">Block zero · Assisted → Unassisted · Mon / Wed / Fri</div>
+      <h1>One rung at a time.</h1>
+      <p class="masthead__lede">
+        Everything else waits. Until the first clean unassisted pull-up, this is the whole
+        program: three sessions a week, one rung of band assistance at a time, and every rung
+        cleared <strong>twice</strong> before you touch the next one. Slow is the feature.
+      </p>
+
+      <dl class="status" id="status">
+        <div class="tile tile--lead"><dt>Current rung</dt><dd id="stMark">—<small id="stMarkSub">&nbsp;</small></dd></div>
+        <div class="tile"><dt>This session</dt><dd id="stTarget">—<small id="stTargetSub">&nbsp;</small></dd></div>
+        <div class="tile"><dt>Rung progress</dt><dd id="stDots">—<small id="stDotsSub">&nbsp;</small></dd></div>
+        <div class="tile"><dt>Projected unassisted</dt><dd id="stDate">—<small id="stDateSub">&nbsp;</small></dd></div>
+      </dl>
+    </header>
+
+    <!-- =============== WHERE YOU ARE =============== -->
+    <section class="section" id="now">
+      <div class="section__head">
+        <div class="section__kicker">Read this once, then never again</div>
+        <h2>How this page works</h2>
+      </div>
+      <div class="prose">
+        <p>
+          The four tiles above are the only thing you need to look at before a session. They tell
+          you which band mark to use, how many reps to do, and how far into the rung you are.
+        </p>
+        <p>
+          After every session you log <strong>clean</strong> or <strong>not clean</strong>. Clean
+          means every rep hit the standard — chin clearly over the bar, armpits clapped, no swing,
+          no kipping, no fifth rep scraped through for the sake of it. Two clean sessions clear a
+          stage. Three stages clear a rung. One bad rep anywhere and the session is not clean, and
+          you repeat it. That is the entire method.
+        </p>
+        <p>
+          <strong>The projected date moves with your real pace.</strong> It starts as an estimate.
+          After your first cleared rung it stops estimating and starts measuring — so if you take
+          nine sessions on a rung instead of six, the date moves out honestly rather than quietly
+          lying to you. Your data lives in this browser only; nothing is sent anywhere.
+        </p>
+      </div>
+
+      <div class="done" id="doneBanner">
+        <h3>Unassisted. Done.</h3>
+        <p id="doneText"></p>
+        <p>Go to <a href="index.html">the main plan</a> and start Phase 0 on the next Monday.</p>
+      </div>
+    </section>
+
+    <!-- =============== LADDER =============== -->
+    <section class="section" id="ladder">
+      <div class="section__head">
+        <div class="section__kicker">The climb</div>
+        <h2>The ladder</h2>
+      </div>
+      <div class="prose">
+        <p>
+          Each rung is one band mark. The bar shows roughly how much of your bodyweight the band
+          is still taking. Six sessions is the fastest any rung can be cleared — three rep stages,
+          each held twice.
+        </p>
+      </div>
+
+      <div class="ladder" id="ladderEl" style="margin-top:var(--s5)"></div>
+
+      <div class="logger__row" style="margin-top:var(--s4)">
+        <button class="btn btn--quiet" type="button" id="editLadderBtn">Edit the ladder</button>
+        <button class="btn btn--quiet" type="button" id="setRungBtn">Set current rung manually</button>
+      </div>
+      <div class="note" style="margin-top:var(--s4)">
+        <span class="note__tag">If your marks run differently</span>
+        <p>
+          This ladder is a placeholder built from what you described — Mark&nbsp;10 as heaviest
+          assistance down to Mark&nbsp;1, then unassisted. <strong>Edit the ladder</strong> takes a
+          comma-separated list, so you can match whatever your band is actually marked with. Your
+          logged history survives the change.
+        </p>
+      </div>
+    </section>
+
+    <!-- =============== LOG =============== -->
+    <section class="section" id="log">
+      <div class="section__head">
+        <div class="section__kicker">After every session</div>
+        <h2>Log it</h2>
+      </div>
+
+      <div class="logger">
+        <div class="logger__head">
+          <span class="card__step">Today</span>
+          <span class="logger__title" id="logTitle">—</span>
+          <span class="logger__target" id="logTarget">—</span>
+        </div>
+        <div class="logger__body">
+          <p class="logger__hint">
+            Judge the <em>worst</em> rep of the session, not the best. If you had to think about
+            whether it counted, it didn't.
+          </p>
+          <div class="logger__row">
+            <input type="date" id="logDate" aria-label="Session date">
+            <input type="text" id="logNote" placeholder="Note — optional. e.g. 3rd set best, cue landed late" aria-label="Session note">
+          </div>
+          <div class="logger__row">
+            <button class="btn btn--go" type="button" id="cleanBtn">All reps clean</button>
+            <button class="btn btn--no" type="button" id="dirtyBtn">Not clean — repeat</button>
+            <button class="btn btn--quiet" type="button" id="undoBtn">Undo last</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="logger__row" style="margin-top:var(--s4)">
+        <button class="btn btn--quiet" type="button" id="backupBtn">Copy backup</button>
+        <button class="btn btn--quiet" type="button" id="restoreBtn">Restore from backup</button>
+        <button class="btn btn--quiet" type="button" id="resetBtn">Reset everything</button>
+      </div>
+      <p class="logger__hint" style="margin-top:var(--s2)">
+        The backup is a line of text. Paste it somewhere safe every few weeks — clearing your
+        browser data wipes the log otherwise.
+      </p>
+    </section>
+
+    <!-- =============== RULES =============== -->
+    <section class="section" id="rules">
+      <div class="section__head">
+        <div class="section__kicker">Non-negotiable</div>
+        <h2>The rules</h2>
+      </div>
+      <div class="prose">
+        <ol>
+          <li>
+            <strong>Every rung gets cleared twice at every rep stage.</strong> Six clean sessions
+            minimum per rung. This was your call and it is the right one — the failure mode you
+            described on Mark&nbsp;10 is exactly what single-clearance ladders produce.
+          </li>
+          <li>
+            <strong>The rep stages are 5/4/4 → 5/5/4 → 5/5/5.</strong> Then drop a mark and go
+            straight back to 5/4/4. You never carry reps across a band change.
+          </li>
+          <li>
+            <strong>One cue only: clap the armpits.</strong> Never swap cues mid-set, never stack
+            two. Boring is the point.
+          </li>
+          <li>
+            <strong>A scraped rep voids the session.</strong> Not a punishment — information.
+            You logged it, you repeat it, you move on.
+          </li>
+          <li>
+            <strong>Three sessions a week, Monday / Wednesday / Friday.</strong> If you miss one,
+            shift forward. Never do two pull-up sessions on consecutive days.
+          </li>
+          <li>
+            <strong>If a rung takes more than ten sessions</strong>, don't grind it — go back up
+            one mark and re-clear it. You lose two weeks and gain the rep quality that was missing.
+          </li>
+          <li>
+            <strong>Pain stops the session.</strong> Muscle burning is fine. Anything sharp in the
+            elbow, shoulder or wrist ends it that day, no debate.
+          </li>
+        </ol>
+      </div>
+
+      <div class="note note--go" style="margin-top:var(--s5)">
+        <span class="note__tag">On the eleven-day break</span>
+        <p>
+          You noticed the cue took a few sets to come back and the strength was still there. That's
+          exactly right and it's worth knowing permanently: <strong>after a layoff, the skill
+          returns before the strength is ever lost.</strong> A week or two off costs you a session
+          or two of re-learning, not weeks of progress. Never panic-restart after a break —
+          re-enter at the same rung and the same reps.
+        </p>
+      </div>
+    </section>
+
+    <!-- =============== SESSION =============== -->
+    <section class="section" id="session">
+      <div class="section__head">
+        <div class="section__kicker">30 minutes · Mon / Wed / Fri</div>
+        <h2>The session</h2>
+      </div>
+
+      <div class="cards cards--2">
+        <article class="card">
+          <div class="card__head"><span class="card__step">Step 1</span><span class="card__title">Warm-up</span><span class="card__meta">~4 min</span></div>
+          <div class="tablewrap"><table><tbody>
+            <tr><td>Y-T-W raises, lying<span class="sub">5 each. Forehead down or lightly rested — do not lift the head. Thumbs up, arms barely off the floor, shoulder blades move gently, no neck strain. Y and T may feel like almost nothing. That's fine. W will feel strongest.</span></td></tr>
+            <tr><td>Arm circles<span class="sub">15 forward, 15 backward</span></td></tr>
+            <tr><td class="num">Rest 60 s</td></tr>
+          </tbody></table></div>
+        </article>
+
+        <article class="card">
+          <div class="card__head"><span class="card__step">Step 2</span><span class="card__title">Scapular pull-ups</span><span class="card__meta" id="scapMark">Mark 10</span></div>
+          <div class="tablewrap"><table><tbody>
+            <tr><td class="num">Set 1 — 5 reps</td></tr>
+            <tr><td class="num">Rest 60 s</td></tr>
+            <tr><td class="num">Set 2 — 5 reps</td></tr>
+            <tr><td class="num">Rest 90 s</td></tr>
+            <tr><td><span class="sub">Elbows stay straight. The joint will appear to move because the whole shoulder girdle travels — that's not a bend. Tiny body rise only. You said you've found this one; keep it exactly where it is.</span></td></tr>
+          </tbody></table></div>
+        </article>
+
+        <article class="card">
+          <div class="card__head"><span class="card__step">Step 3</span><span class="card__title">Assisted pull-ups</span><span class="card__meta" id="workMark">—</span></div>
+          <div class="tablewrap"><table><tbody>
+            <tr><td class="num" id="setLine1">Set 1 — 5 reps</td></tr>
+            <tr><td class="num">Rest 2.5 min</td></tr>
+            <tr><td class="num" id="setLine2">Set 2 — 4 reps</td></tr>
+            <tr><td class="num">Rest 2.5 min</td></tr>
+            <tr><td class="num" id="setLine3">Set 3 — 4 reps</td></tr>
+            <tr><td class="num">Rest 2 min</td></tr>
+            <tr><td><span class="sub">One cue: clap armpits. If every rep is beautiful, you still do not add reps today. The stage advances only after two clean sessions.</span></td></tr>
+          </tbody></table></div>
+        </article>
+
+        <article class="card">
+          <div class="card__head"><span class="card__step">Step 4</span><span class="card__title">Negatives</span><span class="card__meta">Mark 10</span></div>
+          <div class="tablewrap"><table><tbody>
+            <tr><td class="num">Set 1 — 3 reps</td></tr>
+            <tr><td class="num">Rest 2.5 min</td></tr>
+            <tr><td class="num">Set 2 — 3 reps</td></tr>
+            <tr><td class="num">Rest 2 min</td></tr>
+            <tr><td>Each rep<span class="sub">Step to the top · chin clearly over the bar · hold 1 s · lower for 3 s · no swing · chin never touches the bar.</span></td></tr>
+            <tr><td><strong>Only if the stool setup is clean.</strong><span class="sub">If it isn't, replace with assisted top-position practice: 3 singles, step to the top, hold 1 s, step down, no descent. Safety beats ego and this substitution costs you nothing.</span></td></tr>
+          </tbody></table></div>
+        </article>
+      </div>
+
+      <article class="card" style="margin-top:var(--s5)">
+        <div class="card__head"><span class="card__step">Step 5</span><span class="card__title">Cool-down</span><span class="card__meta">~2.5 min</span></div>
+        <div class="tablewrap"><table><tbody>
+          <tr><td>Easy assisted hang, Mark 10</td><td class="num">10–15 s</td></tr>
+          <tr><td>Doorway chest stretch, left / right</td><td class="num">20 s each</td></tr>
+          <tr><td>Lat stretch, left / right</td><td class="num">20 s each</td></tr>
+          <tr><td>Cross-body shoulder stretch, left / right</td><td class="num">20 s each</td></tr>
+        </tbody></table></div>
+      </article>
+    </section>
+
+    <!-- =============== POSTURE =============== -->
+    <section class="section" id="posture">
+      <div class="section__head">
+        <div class="section__kicker">Daily · after pull-ups on M/W/F</div>
+        <h2>The posture routine</h2>
+      </div>
+      <div class="prose">
+        <p>
+          Your routine is good. I'm not rewriting it — it already covers breathing mechanics,
+          pelvic control, glute activation, anti-extension and the hip flexor length that actually
+          drives the tilt. That is the right set of five things. I'm adding <strong>one</strong>
+          exercise and changing <strong>one</strong> habit, and that's all.
+        </p>
+      </div>
+
+      <div class="tablewrap" style="margin-top:var(--s5)">
+        <table>
+          <caption>8–12 minutes · on pull-up days, do it 2–3 min after the cool-down</caption>
+          <thead><tr><th>Exercise</th><th class="num">Dose</th><th class="num">Rest</th></tr></thead>
+          <tbody>
+            <tr><td><strong>90/90 breathing / rib stack</strong><span class="sub">On your back, feet on the bed or wall, knees ~90°. Gently flatten the low back toward the floor. Exhale slowly like fogging a mirror, feel the ribs come down. Inhale quietly without flaring them back up.</span></td><td class="num">5 slow breaths</td><td class="num">15–20 s</td></tr>
+            <tr><td><strong>Pelvic tilts</strong><span class="sub">Knees bent. Tilt the pelvis so the low back gently presses down, then relax to neutral. No hard crunch — this is learning control, not training abs.</span></td><td class="num">1 × 10 slow</td><td class="num">20–30 s</td></tr>
+            <tr><td><strong>Glute bridges</strong><span class="sub">Lightly tuck the pelvis <em>first</em>, then lift by squeezing the glutes. Hold 1 s at the top, lower slowly. Never arch the lower back to get higher.</span></td><td class="num">2 × 10</td><td class="num">30–45 s</td></tr>
+            <tr><td><strong>Dead bug, easy version</strong><span class="sub">Knees up, low back gently controlled, move one limb slowly. If the back arches, shorten the range. Controlled, not dramatic.</span></td><td class="num">2 × 5 / side</td><td class="num">30–45 s</td></tr>
+            <tr><td><strong>Thoracic extension over a rolled towel</strong> <span class="pill pill--go">new</span><span class="sub">Roll a towel to about the thickness of your wrist. Lie back over it at mid-back height, roughly level with the bottom of your shoulder blades. Hands behind the head, ribs down, breathe. This is the one thing your routine was missing — it opens the upper back so standing tall doesn't have to come from arching the lower back.</span></td><td class="num">60–90 s</td><td class="num">20 s</td></tr>
+            <tr><td><strong>Half-kneeling hip flexor stretch</strong><span class="sub">Squeeze the glute on the <em>back-leg</em> side, slightly tuck the pelvis, then lean. The stretch should appear in the front of the hip. If you feel it only in the thigh or you're arching, you've lost the tuck.</span></td><td class="num">30 s / side</td><td class="num">10–20 s</td></tr>
+            <tr><td><strong>Tall standing reset</strong><span class="sub">Feet hip-width, evenly loaded across big toe, little toe and heel. Knees soft. Glutes at 10–20%. Belt buckle slightly up, not a hard tuck. Ribs stacked over pelvis, one exhale to bring them down. Neck long, chin gently back. Shoulders relaxed wide, not yanked back. Should feel tall and relaxed — never puffed, clenched or forced.</span></td><td class="num">3 × 20 s</td><td class="num">15–20 s</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>The habit change — this matters more than the routine</h4>
+      <div class="note" style="margin-top:var(--s3)">
+        <span class="note__tag">Do this</span>
+        <p>
+          Take the <strong>Tall Standing Reset out of the routine and into your day</strong>.
+          Three times daily, twenty seconds, whenever you remember — waiting for a kettle, standing
+          in a lift, before you sit down at your desk. Keep it in the routine too.
+        </p>
+        <p>
+          Posture is not a strength problem, it's a <em>default position</em> problem. Ten minutes
+          on a mat teaches your body the shape; standing in that shape sixty times a week is what
+          makes it the one you fall into without thinking. The mat work alone will plateau. This is
+          the part that transfers.
+        </p>
+      </div>
+
+      <h4>Short version, when time is tight</h4>
+      <div class="prose">
+        <ul>
+          <li>Pelvic tilts — <span class="n">10</span></li>
+          <li>Glute bridges — <span class="n">2 × 10</span></li>
+          <li>Hip flexor stretch — <span class="n">30 s</span> per side</li>
+          <li>Tall standing reset — <span class="n">2 × 20 s</span></li>
+        </ul>
+        <p>That's four minutes and it is genuinely enough on a bad day.</p>
+      </div>
+
+      <h4>Do you keep it once the main program starts?</h4>
+      <div class="prose">
+        <p>
+          <strong>Yes, but it shrinks.</strong> Once you're on Phase 0 and then Upper/Lower, the
+          main program is already doing most of this work under load — Romanian deadlifts and hip
+          thrusts train the exact hip extension the tilt is missing, hanging knee raises train
+          anti-extension harder than a dead bug ever will, and split squats stretch the hip flexor
+          on one side while the other works.
+        </p>
+        <p>So after unassisted pull-ups, drop to:</p>
+        <ul>
+          <li><strong>Full routine</strong> — twice a week, on your two rest days. It's a nice thing to do on a day you're not lifting.</li>
+          <li><strong>Hip flexor stretch + tall standing reset</strong> — daily, two minutes.</li>
+          <li><strong>Tall standing reset in the wild</strong> — 3× a day, forever. This one never stops.</li>
+        </ul>
+        <p>
+          You never need to do 12 minutes a day again once the barbell work is doing the heavy
+          lifting. Right now, with no equipment, it's the best use of ten minutes you have.
+        </p>
+      </div>
+
+      <div class="note note--go" style="margin-top:var(--s5)">
+        <span class="note__tag">On the week you missed</span>
+        <p>
+          Nothing has been undone. Posture work is <strong>motor learning</strong>, not fitness —
+          you're teaching a default position, and skills decay far slower than conditioning. A week
+          off through illness costs you a couple of sessions of feeling rusty. Pick it up exactly
+          where you left it. Don't add extra sessions to compensate; that's the impulse that turns
+          a missed week into a quit month.
+        </p>
+      </div>
+    </section>
+
+    <!-- =============== APT =============== -->
+    <section class="section" id="apt">
+      <div class="section__head">
+        <div class="section__kicker">You asked directly</div>
+        <h2>On the tilt</h2>
+      </div>
+      <div class="prose">
+        <p>
+          I can't diagnose from photographs and won't pretend otherwise. But I can tell you what
+          the photos are consistent with, and more usefully, what your own second photo already
+          proved.
+        </p>
+
+        <h3>What the pictures show</h3>
+        <p>
+          Standing relaxed, there's a mild forward tilt of the pelvis with the lower abdomen
+          carried forward — a lumbar curve slightly deeper than neutral. That is
+          <strong>mild anterior pelvic tilt, and it is unremarkable</strong>. Somewhere around a
+          large majority of adults who sit at a desk measure some degree of it. It is a position,
+          not an injury.
+        </p>
+        <p>
+          A good part of what reads as tilt in the photos isn't tilt at all — it's a relaxed
+          abdominal wall over a normal amount of subcutaneous fat, photographed standing at ease.
+          Those two things look nearly identical in a mirror and are completely different problems.
+          The first is a habit. The second is answered by the nutrition section of the main plan
+          over months, not by any exercise.
+        </p>
+
+        <h3>The thing that actually matters</h3>
+        <div class="note note--go">
+          <span class="note__tag">Your second photo is the whole answer</span>
+          <p>
+            You pushed the hips forward and the stomach tucked in by itself. <strong>That means you
+            can voluntarily control your pelvic position</strong> — which tells you this is
+            postural and motor-control driven, not structural. Structural tilt doesn't move when
+            you ask it to. Yours moved.
+          </p>
+          <p>
+            That is genuinely good news, and it means the routine you're already doing is aimed at
+            exactly the right target. Nothing needs to be escalated.
+          </p>
+        </div>
+
+        <h3>A self-test worth doing once</h3>
+        <p>Two minutes, no equipment, and it gives you a real number instead of a mirror impression.</p>
+        <ol>
+          <li>Stand with your back flat against a wall, heels about <span class="n">5 cm</span> out, shoulders and head touching.</li>
+          <li>Stand normally. Don't correct anything.</li>
+          <li>Slide a flat hand into the gap at your lower back.</li>
+        </ol>
+        <ul>
+          <li><strong>Palm slides in snugly, not much more</strong> — normal. Nothing to fix.</li>
+          <li><strong>Palm plus a lot of room, or your whole fist</strong> — meaningful tilt. Worth the ten minutes a day you're already spending.</li>
+          <li><strong>No gap at all</strong> — the opposite pattern, also fine.</li>
+        </ul>
+        <p>Do it once. Do it again in three months. Don't do it weekly — you'll just make yourself anxious about noise.</p>
+
+        <h3>What actually changes it</h3>
+        <p>In order of how much they matter:</p>
+        <ol>
+          <li><strong>How you stand and sit for the other fifteen hours.</strong> This is 80% of it, and it's why the standing reset moved out of the routine and into your day.</li>
+          <li><strong>Hip flexor length and glute strength.</strong> Your routine covers both. Glute bridges now, hip thrusts and RDLs later.</li>
+          <li><strong>Anti-extension core control.</strong> Dead bugs now, hanging knee raises later.</li>
+          <li><strong>Losing abdominal fat.</strong> Slow, and mostly a nutrition question.</li>
+        </ol>
+        <p>
+          You are already doing the first three. There's nothing to add beyond the towel extension.
+          <strong>Don't go looking for more posture exercises</strong> — the internet will happily
+          sell you a forty-minute daily protocol for a problem you're already solving with ten.
+        </p>
+        <p>
+          And you noticed something real: pull-ups <em>do</em> make you stand taller. Loaded hanging
+          decompresses the spine, and the lats and mid-back you're building are the muscles that
+          hold a tall chest without you having to think about it. The pull-up block is posture work.
+        </p>
+      </div>
+    </section>
+
+    <!-- =============== WEIGHT =============== -->
+    <section class="section" id="weight">
+      <div class="section__head">
+        <div class="section__kicker">Important — this one is easy to get wrong</div>
+        <h2>Weight, while you climb</h2>
+      </div>
+      <div class="prose">
+        <p>
+          The main plan tells you to eat <span class="n">+250</span> kcal and gain to
+          <span class="n">70&nbsp;kg</span>. <strong>Do not start that yet.</strong>
+        </p>
+        <p>
+          A pull-up is the one lift where your bodyweight <em>is</em> the load. Every kilogram you
+          add makes every remaining rung measurably harder — you'd be climbing a ladder while
+          someone raises it. Gaining <span class="n">3&nbsp;kg</span> over a five-month pull-up
+          block would cost you roughly a full rung of progress for nothing.
+        </p>
+      </div>
+
+      <div class="tablewrap" style="margin-top:var(--s5)">
+        <table>
+          <caption>What to eat during Block Zero</caption>
+          <thead><tr><th>Rule</th><th>During the pull-up block</th><th>After unassisted</th></tr></thead>
+          <tbody>
+            <tr><td>Protein</td><td class="num">~120 g/day</td><td class="num">~120 g/day</td></tr>
+            <tr><td>Calories</td><td><strong>Maintenance.</strong> Hold weight flat.</td><td class="num">+250 kcal</td></tr>
+            <tr><td>Target weight</td><td class="num">64–65 kg, steady</td><td class="num">→ 68–70 kg</td></tr>
+            <tr><td>Weigh-in</td><td>Every morning, weekly average</td><td>Every morning, weekly average</td></tr>
+            <tr><td>Steps</td><td class="num">8,000–10,000 / day</td><td class="num">8,000–10,000 / day</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="prose" style="margin-top:var(--s4)">
+        <p>
+          Keep the protein high — that's what protects the muscle you're building on the bar. Just
+          don't add the surplus. <strong>The gaining phase starts the week you get your first clean
+          unassisted pull-up</strong>, not before. That single change may be worth more to this
+          block than anything else on this page.
+        </p>
+      </div>
+    </section>
+
+    <!-- =============== AFTER =============== -->
+    <section class="section" id="after">
+      <div class="section__head">
+        <div class="section__kicker">The handover</div>
+        <h2>Day one after</h2>
+      </div>
+      <div class="prose">
+        <p>
+          The moment you log an unassisted rep, this page is finished and
+          <a href="index.html">the main plan</a> begins. Here's exactly how the two join up so
+          there's nothing to work out on the day.
+        </p>
+      </div>
+
+      <div class="tablewrap" style="margin-top:var(--s5)">
+        <table>
+          <caption>The transition · start on the next Monday, not mid-week</caption>
+          <thead><tr><th class="num">When</th><th>What changes</th></tr></thead>
+          <tbody>
+            <tr><td class="num">That week</td><td><strong>Nothing.</strong> Finish the week on the pull-up protocol. Order the plates and bars if they aren't already on the shelf.</td></tr>
+            <tr><td class="num">Next Monday</td><td><strong>Phase 0 begins</strong> — full body, Mon/Wed/Fri, four weeks. Your pull-up work becomes line 6 of that session, now unassisted at <span class="n">2 × 5</span>. Everything else in Phase 0 starts at the beginner weights in the loading chart.</td></tr>
+            <tr><td class="num">Same week</td><td><strong>Start the surplus.</strong> One extra snack a day, target <span class="n">+0.5–0.75 kg</span> per month.</td></tr>
+            <tr><td class="num">Same week</td><td><strong>Posture routine drops</strong> to the maintenance version above — twice a week plus the daily standing reset.</td></tr>
+            <tr><td class="num">Week 5</td><td><strong>Phase 1 begins</strong> — Upper/Lower, four days. Chin-ups sit at position 2 on Upper A, pull-ups at position 2 on Upper B. You'll be adding reps, not band marks, from here.</td></tr>
+            <tr><td class="num">Then</td><td>Once you can do <span class="n">10</span> clean unassisted, start adding weight — a plate in a backpack, or held between the feet.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="note" style="margin-top:var(--s5)">
+        <span class="note__tag">On doing only pull-ups until then</span>
+        <p>
+          You're right that front-loading the hardest thing is smart, and I'm not going to argue
+          you out of it. Two things to know so it's a clear-eyed choice rather than a hopeful one:
+          you'll arrive at Phase 0 with a strong back and no pressing or leg base, which is exactly
+          what Phase 0 exists to build — so nothing is wasted. And the four to six months is real
+          time, not a rounding error. You've said you're fine with that. It's a defensible trade
+          and it's yours to make.
+        </p>
+      </div>
+    </section>
+
+    <!-- =============== HISTORY =============== -->
+    <section class="section" id="history">
+      <div class="section__head">
+        <div class="section__kicker">Every session</div>
+        <h2>History</h2>
+      </div>
+      <div class="tablewrap">
+        <table>
+          <caption id="histCaption">No sessions logged yet</caption>
+          <thead><tr><th class="num">Date</th><th class="num">Rung</th><th class="num">Reps</th><th>Result</th><th>Note</th></tr></thead>
+          <tbody id="histBody"></tbody>
+        </table>
+      </div>
+
+      <div class="foot">
+        <p>
+          Block Zero of the <a href="index.html">home training program</a>. Data is stored in this
+          browser only. Not medical advice — if something hurts in a joint rather than a muscle,
+          stop and get it looked at.
+        </p>
+        <p>Revision 1 · July 2026</p>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ============================================================
+     CONFIGURATION
+     Edit MARKS here, or use the "Edit the ladder" button on the page.
+     First entry = most band assistance. Last entry before UNASSISTED
+     = least. The final rung is always unassisted.
+     ============================================================ */
+  var DEFAULT_MARKS = ["Mark 10","Mark 9","Mark 8","Mark 7","Mark 6","Mark 5","Mark 4","Mark 3","Mark 2","Mark 1"];
+  var GOAL = "Unassisted";
+
+  var STAGES = [
+    { label: "5 / 4 / 4", reps: [5,4,4] },
+    { label: "5 / 5 / 4", reps: [5,5,4] },
+    { label: "5 / 5 / 5", reps: [5,5,5] }
+  ];
+  var CLEARS_PER_STAGE = 2;
+  var SESSIONS_PER_RUNG = STAGES.length * CLEARS_PER_STAGE;   // 6
+  var SESSIONS_PER_WEEK = 3;
+  var DIFFICULTY_STEP = 0.15;   // each lower rung is assumed 15% slower than the last
+
+  var KEY = "physique-pullups-v1";
+
+  /* ---- state ---- */
+  var s;
+  function blank() {
+    return { marks: DEFAULT_MARKS.slice(), markIndex: 1, stageIndex: 0, clears: 0, sessions: [], finishedOn: null };
+  }
+  function load() {
+    try {
+      var raw = localStorage.getItem(KEY);
+      if (raw) {
+        var p = JSON.parse(raw);
+        if (p && Array.isArray(p.marks) && Array.isArray(p.sessions)) { return p; }
+      }
+    } catch (e) { /* corrupt or unavailable — fall through to a blank slate */ }
+    return blank();
+  }
+  function save() {
+    try { localStorage.setItem(KEY, JSON.stringify(s)); } catch (e) {}
+  }
+
+  /* ---- helpers ---- */
+  function $(id) { return document.getElementById(id); }
+  function isDone() { return s.markIndex >= s.marks.length; }
+  function markName(i) { return i >= s.marks.length ? GOAL : s.marks[i]; }
+  function stage() { return STAGES[Math.min(s.stageIndex, STAGES.length - 1)]; }
+
+  var MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  function fmt(d) { return d.getDate() + " " + MONTHS[d.getMonth()] + " " + d.getFullYear(); }
+  function todayISO() {
+    var d = new Date();
+    return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0");
+  }
+  function prettyISO(iso) {
+    var p = String(iso).split("-");
+    if (p.length !== 3) { return iso; }
+    return Number(p[2]) + " " + MONTHS[Number(p[1]) - 1] + " " + p[0];
+  }
+
+  /* ---- projection ----
+     Baseline is 6 sessions per rung. Once a rung has actually been cleared we
+     blend in the measured pace, weighting real data more as more rungs finish.
+     Lower rungs are assumed progressively slower. */
+  function project() {
+    if (isDone()) { return null; }
+
+    var rungsCleared = s.markIndex - 1;     // started at index 1
+    var measured = null;
+    if (rungsCleared > 0 && s.sessions.length > 0) {
+      measured = s.sessions.length / rungsCleared;
+    }
+
+    var base = SESSIONS_PER_RUNG;
+    if (measured !== null) {
+      var w = Math.min(0.85, 0.5 + 0.12 * rungsCleared);   // trust real data more over time
+      base = (1 - w) * SESSIONS_PER_RUNG + w * measured;
+    }
+
+    // sessions left to finish the rung you're standing on
+    var left = (STAGES.length - s.stageIndex) * CLEARS_PER_STAGE - s.clears;
+
+    // plus every rung below it, each a little slower than the last
+    var remaining = s.marks.length - s.markIndex - 1;
+    for (var i = 0; i < remaining; i++) {
+      left += base * (1 + DIFFICULTY_STEP * (i + 1));
+    }
+
+    var weeks = left / SESSIONS_PER_WEEK;
+    var d = new Date();
+    d.setDate(d.getDate() + Math.ceil(weeks * 7));
+
+    var lo = new Date(); lo.setDate(lo.getDate() + Math.ceil(weeks * 7 * 0.8));
+    var hi = new Date(); hi.setDate(hi.getDate() + Math.ceil(weeks * 7 * 1.3));
+
+    return { date: d, lo: lo, hi: hi, sessions: Math.ceil(left), measured: measured };
+  }
+
+  /* ============================================================
+     RENDER
+     ============================================================ */
+  function render() {
+    var done = isDone();
+
+    /* --- tiles --- */
+    if (done) {
+      $("stMark").innerHTML = "Unassisted<small>Block complete</small>";
+      $("stTarget").innerHTML = "—<small>Move to the main plan</small>";
+      $("stDots").innerHTML = s.sessions.length + "<small>sessions logged</small>";
+      $("stDate").innerHTML = (s.finishedOn ? prettyISO(s.finishedOn) : "Done") + "<small>Actual</small>";
+      $("doneBanner").classList.add("is-on");
+      $("doneText").textContent =
+        "Logged on " + (s.finishedOn ? prettyISO(s.finishedOn) : "today") + ", after " +
+        s.sessions.length + " sessions and " + (s.marks.length - 1) + " rungs. " +
+        "Start the surplus this week.";
+    } else {
+      $("doneBanner").classList.remove("is-on");
+      var st = stage();
+      $("stMark").innerHTML = markName(s.markIndex) +
+        "<small>" + (s.marks.length - s.markIndex) + " rungs to go</small>";
+      $("stTarget").innerHTML = st.label +
+        "<small>" + st.reps.reduce(function(a,b){return a+b;},0) + " reps total</small>";
+
+      var filled = s.stageIndex * CLEARS_PER_STAGE + s.clears;
+      var dots = "";
+      for (var i = 0; i < SESSIONS_PER_RUNG; i++) {
+        if (i > 0 && i % CLEARS_PER_STAGE === 0) { dots += '<span class="dot is-div"></span>'; }
+        dots += '<span class="dot' + (i < filled ? " is-filled" : "") + '"></span>';
+      }
+      $("stDots").innerHTML = '<span class="dots">' + dots + '</span>' +
+        "<small>" + filled + " of " + SESSIONS_PER_RUNG + " clean this rung</small>";
+
+      var p = project();
+      $("stDate").innerHTML = fmt(p.date) +
+        "<small>" + fmt(p.lo) + " – " + fmt(p.hi) + " · " + p.sessions + " sessions" +
+        (p.measured === null ? " · estimated" : " · your pace") + "</small>";
+    }
+
+    /* --- ladder --- */
+    var html = "";
+    var total = s.marks.length;
+    for (var m = 0; m < total; m++) {
+      var cls = "rung";
+      var state;
+      if (m < s.markIndex) { cls += " is-done"; state = "Cleared"; }
+      else if (m === s.markIndex) { cls += " is-now"; state = stage().label; }
+      else { state = "—"; }
+      // band assistance shrinks as you descend the ladder
+      var pct = Math.round(100 - (m / total) * 92);
+      html += '<div class="' + cls + '">' +
+              '<span class="rung__name">' + s.marks[m] + "</span>" +
+              '<span class="rung__bar"><span style="width:' + pct + '%"></span></span>' +
+              '<span class="rung__state">' + state + "</span></div>";
+    }
+    html += '<div class="rung is-goal' + (isDone() ? " is-done" : "") + '">' +
+            '<span class="rung__name">' + GOAL + "</span>" +
+            '<span class="rung__bar"><span style="width:0%"></span></span>' +
+            '<span class="rung__state">' + (isDone() ? "Cleared" : "The goal") + "</span></div>";
+    $("ladderEl").innerHTML = html;
+
+    /* --- session card --- */
+    var sm = s.marks.length ? s.marks[0] : "Mark 10";
+    $("scapMark").textContent = sm;
+    $("workMark").textContent = done ? "Unassisted" : markName(s.markIndex);
+    var reps = done ? [5,5,5] : stage().reps;
+    $("setLine1").textContent = "Set 1 — " + reps[0] + " reps";
+    $("setLine2").textContent = "Set 2 — " + reps[1] + " reps";
+    $("setLine3").textContent = "Set 3 — " + reps[2] + " reps";
+
+    $("logTitle").textContent = done ? "Block complete" : markName(s.markIndex);
+    $("logTarget").textContent = done ? "—" : stage().label;
+    $("cleanBtn").disabled = done;
+    $("dirtyBtn").disabled = done;
+
+    /* --- history --- */
+    var body = "";
+    for (var k = s.sessions.length - 1; k >= 0; k--) {
+      var e = s.sessions[k];
+      body += "<tr><td class='num'>" + prettyISO(e.date) + "</td>" +
+              "<td class='num'>" + e.mark + "</td>" +
+              "<td class='num'>" + e.stage + "</td>" +
+              "<td><span class='pill " + (e.clean ? "pill--go'>clean" : "pill--no'>repeat") + "</span></td>" +
+              "<td>" + (e.note ? escapeHtml(e.note) : "") + "</td></tr>";
+    }
+    $("histBody").innerHTML = body;
+    $("histCaption").textContent = s.sessions.length === 0
+      ? "No sessions logged yet"
+      : s.sessions.length + " sessions logged · newest first";
+  }
+
+  function escapeHtml(t) {
+    return String(t).replace(/[&<>"']/g, function (c) {
+      return ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" })[c];
+    });
+  }
+
+  /* ============================================================
+     ACTIONS
+     ============================================================ */
+  function logSession(clean) {
+    if (isDone()) { return; }
+    var date = $("logDate").value || todayISO();
+    var note = $("logNote").value.trim();
+
+    s.sessions.push({ date: date, mark: markName(s.markIndex), stage: stage().label, clean: clean, note: note });
+
+    if (clean) {
+      s.clears += 1;
+      if (s.clears >= CLEARS_PER_STAGE) {
+        s.clears = 0;
+        s.stageIndex += 1;
+        if (s.stageIndex >= STAGES.length) {
+          s.stageIndex = 0;
+          s.markIndex += 1;
+          if (isDone()) { s.finishedOn = date; }
+        }
+      }
+    } else {
+      s.clears = 0;   // the stage restarts — both clears must be consecutive
+    }
+
+    $("logNote").value = "";
+    save(); render();
+  }
+
+  function undo() {
+    if (!s.sessions.length) { return; }
+    if (!confirm("Remove the last logged session and rewind the ladder?")) { return; }
+    // Rebuild state from scratch — simpler and always correct.
+    var kept = s.sessions.slice(0, -1);
+    var marks = s.marks;
+    s = blank();
+    s.marks = marks;
+    var replay = kept;
+    s.sessions = [];
+    for (var i = 0; i < replay.length; i++) {
+      var e = replay[i];
+      s.sessions.push(e);
+      if (isDone()) { continue; }
+      if (e.clean) {
+        s.clears += 1;
+        if (s.clears >= CLEARS_PER_STAGE) {
+          s.clears = 0; s.stageIndex += 1;
+          if (s.stageIndex >= STAGES.length) {
+            s.stageIndex = 0; s.markIndex += 1;
+            if (isDone()) { s.finishedOn = e.date; }
+          }
+        }
+      } else { s.clears = 0; }
+    }
+    save(); render();
+  }
+
+  /* ---- wiring ---- */
+  $("logDate").value = todayISO();
+  $("cleanBtn").addEventListener("click", function () { logSession(true); });
+  $("dirtyBtn").addEventListener("click", function () { logSession(false); });
+  $("undoBtn").addEventListener("click", undo);
+
+  $("editLadderBtn").addEventListener("click", function () {
+    var next = prompt(
+      "Band marks, comma separated.\nFirst = most assistance, last = least.\n\"Unassisted\" is added automatically.",
+      s.marks.join(", ")
+    );
+    if (next === null) { return; }
+    var list = next.split(",").map(function (x) { return x.trim(); }).filter(Boolean);
+    if (list.length < 2) { alert("Give at least two marks."); return; }
+    s.marks = list;
+    if (s.markIndex > list.length) { s.markIndex = list.length; }
+    save(); render();
+  });
+
+  $("setRungBtn").addEventListener("click", function () {
+    var listing = s.marks.map(function (m, i) { return (i + 1) + " = " + m; }).join("\n");
+    var next = prompt("Which rung are you on now?\n\n" + listing + "\n\nEnter a number:",
+      String(Math.min(s.markIndex + 1, s.marks.length)));
+    if (next === null) { return; }
+    var n = parseInt(next, 10);
+    if (!(n >= 1 && n <= s.marks.length)) { alert("That isn't one of the rungs."); return; }
+    s.markIndex = n - 1;
+    s.stageIndex = 0;
+    s.clears = 0;
+    s.finishedOn = null;
+    save(); render();
+  });
+
+  $("backupBtn").addEventListener("click", function () {
+    var text = JSON.stringify(s);
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(
+        function () { alert("Backup copied. Paste it somewhere safe."); },
+        function () { prompt("Copy this and keep it safe:", text); }
+      );
+    } else {
+      prompt("Copy this and keep it safe:", text);
+    }
+  });
+
+  $("restoreBtn").addEventListener("click", function () {
+    var raw = prompt("Paste a backup:");
+    if (!raw) { return; }
+    try {
+      var p = JSON.parse(raw);
+      if (!p || !Array.isArray(p.marks) || !Array.isArray(p.sessions)) { throw new Error("shape"); }
+      s = p; save(); render();
+      alert("Restored " + s.sessions.length + " sessions.");
+    } catch (e) {
+      alert("That backup couldn't be read. Check you pasted the whole line.");
+    }
+  });
+
+  $("resetBtn").addEventListener("click", function () {
+    if (!confirm("Delete every logged session and start the ladder over? This cannot be undone.")) { return; }
+    s = blank(); save(); render();
+  });
+
+  /* ---- theme ---- */
+  var root = document.documentElement;
+  var btn = $("themeBtn"), label = $("themeLabel");
+  var media = window.matchMedia("(prefers-color-scheme: dark)");
+  function dark() { var set = root.getAttribute("data-theme"); return set ? set === "dark" : media.matches; }
+  function syncTheme() {
+    label.textContent = dark() ? "Light" : "Dark";
+    btn.setAttribute("aria-label", "Switch to " + (dark() ? "light" : "dark") + " theme");
+  }
+  try {
+    var saved = localStorage.getItem("physique-theme");
+    if (saved === "dark" || saved === "light") { root.setAttribute("data-theme", saved); }
+  } catch (e) {}
+  btn.addEventListener("click", function () {
+    var next = dark() ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    try { localStorage.setItem("physique-theme", next); } catch (e) {}
+    syncTheme();
+  });
+  media.addEventListener("change", syncTheme);
+  syncTheme();
+
+  /* ---- rail highlight ---- */
+  var links = Array.prototype.slice.call(document.querySelectorAll("#rail a"));
+  var byId = {};
+  links.forEach(function (a) { byId[a.getAttribute("href").slice(1)] = a; });
+  var sections = Array.prototype.slice.call(document.querySelectorAll("main section[id]"));
+  if ("IntersectionObserver" in window) {
+    var visible = {};
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { visible[en.target.id] = en.isIntersecting; });
+      var active = null;
+      for (var i = 0; i < sections.length; i++) {
+        if (visible[sections[i].id]) { active = sections[i].id; break; }
+      }
+      links.forEach(function (a) { a.classList.remove("is-active"); });
+      if (active && byId[active]) { byId[active].classList.add("is-active"); }
+    }, { rootMargin: "-10% 0px -70% 0px", threshold: 0 });
+    sections.forEach(function (sec) { io.observe(sec); });
+  }
+
+  /* ---- go ---- */
+  s = load();
+  render();
+})();
+</script>
+</body>
+</html>
