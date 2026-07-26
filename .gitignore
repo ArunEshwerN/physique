@@ -12,3 +12,8 @@ Desktop.ini
 # Scratch
 *.log
 tmp/
+
+# Dependencies
+node_modules/
+package-lock.json
+pqtest/
