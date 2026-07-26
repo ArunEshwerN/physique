@@ -11,17 +11,38 @@ your current rung, and a projected unassisted date that moves with your real pac
 
 ## The rules
 
-1. **Every rung gets cleared twice at every rep stage.** Six clean sessions minimum per rung.
-   Your call, and the right one — single-clearance ladders produce exactly the failure you
-   described on Mark 10.
-2. **Rep stages are 5/4/4 → 5/5/4 → 5/5/5.** Then drop a mark and go straight back to 5/4/4.
-   Reps never carry across a band change.
-3. **One cue only: clap the armpits.** Never swap cues mid-set, never stack two.
-4. **A scraped rep voids the session.** Not a punishment — information. Log it, repeat it.
-5. **Three sessions a week, Mon/Wed/Fri.** Never two pull-up sessions on consecutive days.
-6. **If a rung takes more than ten sessions**, go back up one mark and re-clear it. You lose two
-   weeks and gain the rep quality that was missing.
-7. **Pain stops the session.** Anything sharp in the elbow, shoulder or wrist ends it that day.
+1. **The pain screen runs first, every time.** Three easy scapular reps before the warm-up.
+   Anything sharp in the elbow, shoulder or wrist ends the session there — no debate, no
+   negotiating with yourself at the bar. A muscle that burns is fine. A joint that pings is not.
+2. **Every rep stage gets cleared twice.** Two clean sessions to advance a stage, all stages to
+   clear a rung. Single-clearance ladders produce exactly the failure you described on Mark 10.
+3. **A new rung restarts at 3/3/3.** Dropping band assistance raises the load, so the volume
+   drops to meet it. Reps never carry across a band change.
+4. **One cue only: clap the armpits.** Never swap cues mid-set, never stack two.
+5. **A scraped rep voids the session.** Not a punishment — information. Log it, repeat it.
+6. **Three sessions a week, Mon/Wed/Fri.** Never two pull-up sessions on consecutive days.
+7. **If a rung runs fourteen sessions past its minimum**, go back up one mark and re-clear it.
+   You lose two weeks and gain the rep quality that was missing.
+
+## The rep stages
+
+Every rung starts at the bottom and climbs **one rep at a time**:
+
+| Stage | Reps | Total |
+|---:|---|---:|
+| 1 | 3 / 3 / 3 | 9 |
+| 2 | 4 / 3 / 3 | 10 |
+| 3 | 4 / 4 / 3 | 11 |
+| 4 | 4 / 4 / 4 | 12 |
+| 5 | 5 / 4 / 4 | 13 |
+| 6 | 5 / 5 / 4 | 14 |
+| 7 | 5 / 5 / 5 | 15 |
+
+Each stage held twice → **14 sessions per rung**, about 4.5 weeks at three a week. That is
+deliberately slow, and it's the cost of the "clear everything twice" rule you asked for.
+
+The tracker has two shorter presets if you ever want to compress — **Standard** (5 stages, 10
+sessions per rung) and **Fast** (3 stages, 6 sessions per rung). The default stays Gradual.
 
 > **On the eleven-day break.** You noticed the cue took a few sets to come back while the
 > strength was still there. Worth knowing permanently: **after a layoff the skill returns before
@@ -33,15 +54,16 @@ your current rung, and a projected unassisted date that moves with your real pac
 
 | Rung | Band | Sessions to clear |
 |---|---|---:|
-| 1 | Mark 10 — heaviest assistance | 6 |
-| 2 | Mark 9 ← you are here | 6 |
-| 3 | Mark 8 | 6 |
-| … | … | 6 |
-| 10 | Mark 1 — lightest assistance | 6 |
+| 1 | Mark 10 — heaviest assistance | 14 |
+| 2 | Mark 9 ← you are here | 14 |
+| 3 | Mark 8 | 14 |
+| … | … | 14 |
+| 10 | Mark 1 — lightest assistance | 14 |
 | **11** | **Unassisted** | — |
 
-Six sessions is the *fastest* any rung can go: three rep stages, each held twice. Lower rungs
-realistically take longer, which is why the tracker's projection weights them.
+Fourteen sessions is the *fastest* any rung can go: seven rep stages, each held twice. Any
+session that isn't clean adds one. The tracker projects from your actual clean rate rather than
+the minimum, so the date it shows is the honest one.
 
 If your band marks run differently, the **Edit the ladder** button on the tracker page takes a
 comma-separated list. Your logged history survives the change.
@@ -49,6 +71,16 @@ comma-separated list. Your logged history survives the change.
 ---
 
 ## The session — 30 minutes, Mon/Wed/Fri
+
+### 0. Pain screen (30 s) — never skip
+
+**3 easy scapular pull-ups at your easiest mark.** Slow, no effort, purely diagnostic.
+
+Anything sharp in the elbow, shoulder or wrist and the session ends there — do the posture
+routine instead and try again next slot. A muscle that burns is fine. A joint that pings is not.
+
+This runs *before* the warm-up, not after. The point is to find out whether today is a training
+day before you've spent any energy deciding that it is.
 
 ### 1. Warm-up (~4 min)
 
