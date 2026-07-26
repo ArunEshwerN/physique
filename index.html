@@ -1,0 +1,1330 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Physique — A Home Training Program</title>
+<meta name="description" content="A twelve-month home training and nutrition program for a lean, athletic build. Adjustable bench, two dumbbells, one pull-up bar.">
+<meta name="theme-color" content="#EDEEE8">
+<style>
+/* ============================================================
+   TOKENS
+   Ground: cast iron and workshop paper. Accent: brass locknut.
+   ============================================================ */
+:root {
+  --paper:      #EDEEE8;
+  --surface:    #F8F9F4;
+  --surface-2:  #E4E6DE;
+  --ink:        #191C1F;
+  --ink-2:      #565E65;
+  --ink-3:      #7C848B;
+  --rule:       #D2D5CC;
+  --rule-soft:  #E1E3DB;
+  --accent:     #8A6A20;
+  --accent-ink: #6E5316;
+  --accent-soft:#EDE2C2;
+  --good:       #456B4C;
+  --good-soft:  #DFE8DE;
+  --warn:       #8C3A2E;
+  --warn-soft:  #F0DFDA;
+  --shadow:     0 1px 2px rgba(25,28,31,.05), 0 8px 24px -12px rgba(25,28,31,.18);
+
+  --font-display: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+  --font-body: "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --font-data: "Cascadia Mono", "Cascadia Code", Consolas, "SF Mono", ui-monospace, "Roboto Mono", monospace;
+
+  --s1: .25rem; --s2: .5rem;  --s3: .75rem; --s4: 1rem;
+  --s5: 1.5rem; --s6: 2rem;   --s7: 3rem;   --s8: 4.5rem;
+
+  --measure: 68ch;
+  --rail: 15rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper:      #131519;
+    --surface:    #1B1E23;
+    --surface-2:  #23272D;
+    --ink:        #E9EAE4;
+    --ink-2:      #98A0A7;
+    --ink-3:      #767E85;
+    --rule:       #2A2F36;
+    --rule-soft:  #22262C;
+    --accent:     #DCB865;
+    --accent-ink: #EBCE8E;
+    --accent-soft:#38300F;
+    --good:       #7FAE86;
+    --good-soft:  #1E2A20;
+    --warn:       #D98878;
+    --warn-soft:  #2C1B18;
+    --shadow:     0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.7);
+  }
+}
+
+/* Explicit toggle must win in BOTH directions. */
+:root[data-theme="dark"] {
+  --paper:#131519; --surface:#1B1E23; --surface-2:#23272D;
+  --ink:#E9EAE4; --ink-2:#98A0A7; --ink-3:#767E85;
+  --rule:#2A2F36; --rule-soft:#22262C;
+  --accent:#DCB865; --accent-ink:#EBCE8E; --accent-soft:#38300F;
+  --good:#7FAE86; --good-soft:#1E2A20; --warn:#D98878; --warn-soft:#2C1B18;
+  --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.7);
+}
+:root[data-theme="light"] {
+  --paper:#EDEEE8; --surface:#F8F9F4; --surface-2:#E4E6DE;
+  --ink:#191C1F; --ink-2:#565E65; --ink-3:#7C848B;
+  --rule:#D2D5CC; --rule-soft:#E1E3DB;
+  --accent:#8A6A20; --accent-ink:#6E5316; --accent-soft:#EDE2C2;
+  --good:#456B4C; --good-soft:#DFE8DE; --warn:#8C3A2E; --warn-soft:#F0DFDA;
+  --shadow: 0 1px 2px rgba(25,28,31,.05), 0 8px 24px -12px rgba(25,28,31,.18);
+}
+
+/* ============================================================
+   RESET / BASE
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.62;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, h4 { margin: 0; font-weight: 600; text-wrap: balance; line-height: 1.18; }
+p, ul, ol, table, figure { margin: 0; }
+a { color: var(--accent-ink); text-decoration-thickness: 1px; text-underline-offset: .18em; }
+a:hover { color: var(--ink); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+strong { font-weight: 640; color: var(--ink); }
+em { font-style: italic; }
+
+/* ============================================================
+   SHELL
+   ============================================================ */
+.shell {
+  display: grid;
+  grid-template-columns: 1fr;
+  max-width: 78rem;
+  margin: 0 auto;
+  padding: 0 var(--s5) var(--s8);
+}
+@media (min-width: 1100px) {
+  .shell {
+    grid-template-columns: var(--rail) minmax(0, 1fr);
+    column-gap: var(--s8);
+    padding-right: var(--s7);
+  }
+}
+
+/* ---- Reference rail ---- */
+.rail { display: none; }
+@media (min-width: 1100px) {
+  .rail {
+    display: block;
+    position: sticky;
+    top: 0;
+    align-self: start;
+    max-height: 100vh;
+    overflow-y: auto;
+    padding: var(--s7) 0 var(--s6);
+    border-right: 1px solid var(--rule-soft);
+    padding-right: var(--s4);
+  }
+}
+.rail__label {
+  font-family: var(--font-data);
+  font-size: .6875rem;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: var(--s3);
+}
+.rail__nav { display: grid; gap: 1px; }
+.rail__nav a {
+  display: grid;
+  grid-template-columns: 2.1rem 1fr;
+  gap: var(--s2);
+  align-items: baseline;
+  padding: .3rem .4rem;
+  font-size: .875rem;
+  color: var(--ink-2);
+  text-decoration: none;
+  border-radius: 3px;
+  border-left: 2px solid transparent;
+}
+.rail__nav a:hover { background: var(--surface); color: var(--ink); }
+.rail__nav a.is-active { border-left-color: var(--accent); color: var(--ink); background: var(--surface); }
+.rail__nav .k {
+  font-family: var(--font-data);
+  font-size: .6875rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-3);
+}
+.rail__nav a.is-active .k { color: var(--accent); }
+.rail__rule { height: 1px; background: var(--rule-soft); margin: var(--s4) 0; }
+
+/* ---- Theme toggle ---- */
+.toggle {
+  display: inline-flex; align-items: center; gap: .45rem;
+  margin-top: var(--s4);
+  padding: .38rem .7rem;
+  font-family: var(--font-data);
+  font-size: .6875rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  cursor: pointer;
+}
+.toggle:hover { color: var(--ink); border-color: var(--ink-3); }
+.toggle__dot {
+  width: .5rem; height: .5rem; border-radius: 50%;
+  background: var(--accent);
+}
+
+/* ============================================================
+   MASTHEAD  — a spec-sheet header, not a hero
+   ============================================================ */
+.masthead { padding: var(--s7) 0 var(--s6); border-bottom: 2px solid var(--ink); }
+.masthead__eyebrow {
+  font-family: var(--font-data);
+  font-size: .6875rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--accent-ink);
+  margin-bottom: var(--s4);
+}
+.masthead h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 7vw, 4.25rem);
+  letter-spacing: -.022em;
+  font-weight: 600;
+  margin-bottom: var(--s4);
+}
+.masthead__lede {
+  font-size: clamp(1.0625rem, 2.2vw, 1.1875rem);
+  color: var(--ink-2);
+  max-width: 54ch;
+  line-height: 1.55;
+}
+
+.specstrip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr));
+  gap: 1px;
+  margin-top: var(--s6);
+  background: var(--rule-soft);
+  border: 1px solid var(--rule-soft);
+}
+.specstrip > div { background: var(--paper); padding: var(--s3) var(--s4) var(--s4); }
+.specstrip dt {
+  font-family: var(--font-data);
+  font-size: .625rem;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: .3rem;
+}
+.specstrip dd {
+  margin: 0;
+  font-family: var(--font-data);
+  font-size: 1.125rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+.specstrip dd small { font-size: .75rem; color: var(--ink-3); }
+
+/* ============================================================
+   SECTIONS
+   ============================================================ */
+.section { padding-top: var(--s8); scroll-margin-top: var(--s4); }
+.section__head { display: grid; gap: var(--s3); margin-bottom: var(--s5); }
+.section__kicker {
+  font-family: var(--font-data);
+  font-size: .6875rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--accent-ink);
+  display: flex; align-items: center; gap: var(--s3);
+}
+.section__kicker::after {
+  content: ""; flex: 1; height: 1px; background: var(--rule);
+}
+.section h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  letter-spacing: -.018em;
+}
+.section h3 {
+  font-family: var(--font-display);
+  font-size: 1.375rem;
+  letter-spacing: -.012em;
+  margin-top: var(--s6);
+}
+.section h4 {
+  font-family: var(--font-body);
+  font-size: .9375rem;
+  font-weight: 640;
+  letter-spacing: .005em;
+  margin-top: var(--s5);
+}
+.prose { display: grid; gap: var(--s4); max-width: var(--measure); }
+.prose ul, .prose ol { padding-left: 1.15rem; display: grid; gap: .4rem; }
+.prose li::marker { color: var(--ink-3); }
+
+/* ============================================================
+   DATA — numbers always in mono, always tabular
+   ============================================================ */
+.n { font-family: var(--font-data); font-variant-numeric: tabular-nums; font-size: .9375em; }
+
+.tablewrap {
+  overflow-x: auto;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+table { width: 100%; border-collapse: collapse; font-size: .9375rem; }
+caption {
+  caption-side: top;
+  text-align: left;
+  padding: var(--s3) var(--s4);
+  font-family: var(--font-data);
+  font-size: .6875rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  border-bottom: 1px solid var(--rule-soft);
+}
+th, td { padding: .6rem var(--s4); text-align: left; vertical-align: top; }
+thead th {
+  font-family: var(--font-data);
+  font-size: .625rem;
+  font-weight: 500;
+  letter-spacing: .11em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  border-bottom: 1px solid var(--rule);
+  white-space: nowrap;
+}
+tbody tr + tr td { border-top: 1px solid var(--rule-soft); }
+tbody tr:hover td { background: var(--surface-2); }
+td.num, th.num { font-family: var(--font-data); font-variant-numeric: tabular-nums; white-space: nowrap; }
+tfoot td {
+  border-top: 1px solid var(--rule);
+  font-weight: 640;
+  font-family: var(--font-data);
+  font-variant-numeric: tabular-nums;
+}
+.sub { display: block; font-size: .8125rem; color: var(--ink-2); line-height: 1.45; margin-top: .15rem; }
+
+/* ============================================================
+   PLATE DISCS — drawn at true relative diameter
+   1 kg = 135 mm · 2 kg = 175 mm · 5 kg = 230 mm  (scale 0.19)
+   ============================================================ */
+.load { display: inline-flex; align-items: center; gap: .2rem; }
+.disc {
+  display: inline-grid; place-items: center;
+  border-radius: 50%;
+  font-family: var(--font-data);
+  font-size: .625rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-2);
+  background: var(--surface-2);
+  border: 1px solid var(--rule);
+  box-shadow: inset 0 0 0 2px var(--surface);
+  flex: none;
+}
+.disc--1 { width: 26px; height: 26px; }
+.disc--2 { width: 33px; height: 33px; }
+.disc--5 { width: 44px; height: 44px; font-size: .6875rem; color: var(--accent-ink); border-color: var(--accent); }
+
+/* ============================================================
+   CARDS
+   ============================================================ */
+.cards { display: grid; gap: var(--s5); }
+@media (min-width: 60rem) { .cards--2 { grid-template-columns: 1fr 1fr; } }
+
+.card {
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  display: grid;
+  align-content: start;
+}
+.card__head {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s3);
+  padding: var(--s4);
+  border-bottom: 1px solid var(--rule);
+  background: var(--surface-2);
+}
+.card__day {
+  font-family: var(--font-data);
+  font-size: .625rem;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: var(--accent-ink);
+}
+.card__title { font-family: var(--font-display); font-size: 1.25rem; letter-spacing: -.01em; }
+.card__meta {
+  margin-left: auto;
+  font-family: var(--font-data);
+  font-size: .75rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-3);
+}
+.card .tablewrap { border: 0; border-radius: 0; box-shadow: none; background: transparent; }
+
+/* ============================================================
+   CALLOUTS
+   ============================================================ */
+.note {
+  display: grid; gap: var(--s2);
+  padding: var(--s4) var(--s5);
+  border-left: 3px solid var(--accent);
+  background: var(--accent-soft);
+  border-radius: 0 4px 4px 0;
+  max-width: var(--measure);
+  font-size: .9375rem;
+}
+.note--stop { border-left-color: var(--warn); background: var(--warn-soft); }
+.note--go   { border-left-color: var(--good); background: var(--good-soft); }
+.note__tag {
+  font-family: var(--font-data);
+  font-size: .625rem;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+/* ============================================================
+   PROGRESSION LADDER
+   ============================================================ */
+.ladder {
+  display: grid;
+  gap: 0;
+  font-family: var(--font-data);
+  font-size: .875rem;
+  font-variant-numeric: tabular-nums;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--surface);
+  max-width: 34rem;
+}
+.ladder > div {
+  display: grid;
+  grid-template-columns: 4.5rem 4rem 1fr;
+  gap: var(--s3);
+  padding: .5rem var(--s4);
+  align-items: center;
+}
+.ladder > div + div { border-top: 1px solid var(--rule-soft); }
+.ladder .wk { color: var(--ink-3); font-size: .75rem; }
+.ladder .kg { color: var(--ink); }
+.ladder .reps { color: var(--ink-2); letter-spacing: .04em; }
+.ladder .is-jump { background: var(--accent-soft); }
+.ladder .is-jump .kg, .ladder .is-jump .reps { color: var(--accent-ink); }
+
+/* ============================================================
+   CALENDAR
+   ============================================================ */
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(6.5rem, 1fr));
+  gap: 1px;
+  background: var(--rule-soft);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.calendar > div { background: var(--surface); padding: var(--s3) var(--s4) var(--s4); min-height: 6rem; display: grid; align-content: start; gap: .3rem; }
+.calendar .day {
+  font-family: var(--font-data);
+  font-size: .625rem; letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3);
+}
+.calendar .what { font-weight: 640; font-size: .9375rem; }
+.calendar .mins { font-family: var(--font-data); font-size: .75rem; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.calendar .is-rest { background: var(--paper); }
+.calendar .is-rest .what { font-weight: 400; color: var(--ink-2); }
+.calendar .is-train .what { color: var(--accent-ink); }
+
+/* ============================================================
+   TIMELINE
+   ============================================================ */
+.timeline { display: grid; gap: 0; border-left: 2px solid var(--rule); margin-left: .4rem; }
+.timeline > li { list-style: none; padding: var(--s4) 0 var(--s4) var(--s5); position: relative; }
+.timeline > li::before {
+  content: ""; position: absolute; left: -5px; top: 1.55rem;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--paper); border: 2px solid var(--rule);
+}
+.timeline > li.is-goal::before { background: var(--accent); border-color: var(--accent); }
+.timeline .when {
+  font-family: var(--font-data); font-size: .6875rem; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--ink-3); display: block; margin-bottom: .25rem;
+}
+.timeline li.is-goal .when { color: var(--accent-ink); }
+
+/* ============================================================
+   LOG SAMPLE
+   ============================================================ */
+pre {
+  margin: 0; overflow-x: auto;
+  padding: var(--s4) var(--s5);
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  font-family: var(--font-data);
+  font-size: .8125rem;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.7;
+  color: var(--ink-2);
+  box-shadow: var(--shadow);
+}
+pre b { color: var(--ink); font-weight: 400; }
+pre .c { color: var(--accent-ink); }
+
+/* ============================================================
+   CHECKLIST
+   ============================================================ */
+.checklist { display: grid; gap: 1px; background: var(--rule-soft); border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; list-style: none; padding: 0; max-width: 46rem; }
+.checklist li { background: var(--surface); padding: var(--s4); display: grid; grid-template-columns: 1.6rem 1fr auto; gap: var(--s3); align-items: baseline; }
+.checklist .i { font-family: var(--font-data); font-size: .75rem; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.checklist .cost { font-family: var(--font-data); font-size: .8125rem; color: var(--ink-2); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.foot {
+  margin-top: var(--s8);
+  padding-top: var(--s5);
+  border-top: 1px solid var(--rule);
+  font-size: .875rem;
+  color: var(--ink-3);
+  display: grid; gap: var(--s2);
+  max-width: var(--measure);
+}
+.foot code { font-family: var(--font-data); font-size: .8125rem; }
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+  <!-- ================= RAIL ================= -->
+  <aside class="rail">
+    <div class="rail__label">Contents</div>
+    <nav class="rail__nav" id="rail">
+      <a href="#read"><span class="k">—</span><span>The honest read</span></a>
+      <a href="#kit"><span class="k">—</span><span>Equipment</span></a>
+      <a href="#loading"><span class="k">—</span><span>Loading chart</span></a>
+      <div class="rail__rule"></div>
+      <a href="#phase0"><span class="k">P0</span><span>Foundation</span></a>
+      <a href="#phase1"><span class="k">P1</span><span>Upper / Lower</span></a>
+      <a href="#warmup"><span class="k">—</span><span>Warm-up</span></a>
+      <a href="#progression"><span class="k">—</span><span>Progression</span></a>
+      <a href="#blocks"><span class="k">—</span><span>Blocks &amp; deloads</span></a>
+      <div class="rail__rule"></div>
+      <a href="#food"><span class="k">—</span><span>Nutrition</span></a>
+      <a href="#log"><span class="k">—</span><span>The log</span></a>
+      <a href="#timeline"><span class="k">—</span><span>Timeline</span></a>
+      <a href="#start"><span class="k">—</span><span>Start here</span></a>
+    </nav>
+    <button class="toggle" type="button" id="themeBtn" aria-live="polite">
+      <span class="toggle__dot" aria-hidden="true"></span><span id="themeLabel">Dark</span>
+    </button>
+  </aside>
+
+  <!-- ================= MAIN ================= -->
+  <main>
+
+    <header class="masthead">
+      <div class="masthead__eyebrow">Home training program · Revision 1 · July 2026</div>
+      <h1>Lean, not large.</h1>
+      <p class="masthead__lede">
+        A twelve-month plan for a specific build — wide shoulders, a full upper chest, lat
+        width, visible abs — using one adjustable bench, two dumbbells, a pull-up bar and
+        sixty-four kilograms of cast iron. Four sessions a week, none of them longer than an hour.
+      </p>
+      <dl class="specstrip">
+        <div><dt>Starting</dt><dd>64.5 <small>kg</small></dd></div>
+        <div><dt>Target</dt><dd>68–70 <small>kg</small></dd></div>
+        <div><dt>Body fat</dt><dd>12–15 <small>%</small></dd></div>
+        <div><dt>Frequency</dt><dd>4 <small>days / wk</small></dd></div>
+        <div><dt>Session</dt><dd>45–55 <small>min</small></dd></div>
+        <div><dt>Kit spend</dt><dd>₹14,774</dd></div>
+      </dl>
+    </header>
+
+    <!-- ============ THE READ ============ -->
+    <section class="section" id="read">
+      <div class="section__head">
+        <div class="section__kicker">Before anything else</div>
+        <h2>The honest read</h2>
+      </div>
+      <div class="prose">
+        <p>
+          At 64.5&nbsp;kg having never lifted, getting bulky is not a risk you need to manage.
+          It is the opposite problem. The physiques you're aiming at sit around
+          <span class="n">10–13%</span> body fat with real shoulder, upper-chest and lat mass.
+          Daniel Craig in <em>Casino Royale</em> was roughly <span class="n">78&nbsp;kg</span> at
+          <span class="n">178&nbsp;cm</span>.
+        </p>
+        <p>
+          Your <span class="n">70&nbsp;kg</span> ceiling is sensible and achievable — and you will
+          not look blocky there. You'll look like the reference photos. But understand the
+          direction of travel: hitting that look <strong>requires</strong> getting to roughly that
+          number. The cap stays. The gaining is not optional.
+        </p>
+        <div class="note">
+          <span class="note__tag">Working assumption</span>
+          <p>
+            Height taken as <span class="n">168–175&nbsp;cm</span>. Under <span class="n">165&nbsp;cm</span>,
+            shift the target band to <span class="n">63–66&nbsp;kg</span>. Over
+            <span class="n">178&nbsp;cm</span>, allow <span class="n">72&nbsp;kg</span>.
+            Nothing else in the plan changes.
+          </p>
+        </div>
+        <h3>What the look actually requires</h3>
+        <p>
+          Strip away the lighting and the tans and every one of those photos has the same four
+          things: <strong>side delts, a full upper chest, lat width, and low enough body fat to see
+          the abs.</strong> Arms matter. Legs are essentially invisible. So the program is
+          shoulder- and upper-body-biased, with legs trained enough for health, proportion and
+          injury resistance — but never chased.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ EQUIPMENT ============ -->
+    <section class="section" id="kit">
+      <div class="section__head">
+        <div class="section__kicker">Equipment</div>
+        <h2>Two bars, twenty-four plates, one ceiling</h2>
+      </div>
+
+      <div class="prose">
+        <h3>The bars</h3>
+        <p>
+          <strong>Buy two of the 45&nbsp;cm threaded bar (ID <span class="n">8766096</span>), ₹999
+          each.</strong> Not the 35&nbsp;cm. The reason is safety, not capacity.
+        </p>
+        <p>
+          The 35&nbsp;cm bar relies on Smart Disc Collars, rated <strong>15&nbsp;kg in a vertical
+          position</strong>. Every overhead press, every incline press, every lateral raise is a
+          vertical position — and you'll pass 15&nbsp;kg per dumbbell inside four months. From then
+          on you'd be pressing weight over your face held on by a collar past its rating. The
+          threaded bar's <strong>locknuts thread onto the bar itself</strong>: 30&nbsp;kg per side,
+          no such limit. ₹800 more for the pair.
+        </p>
+      </div>
+
+      <div class="note note--stop" style="margin-top:var(--s4)">
+        <span class="note__tag">Don't</span>
+        <p>
+          <strong>Skip 50&nbsp;mm Olympic.</strong> The handles are thick, the empty bar weighs
+          5–7&nbsp;kg, and the plates are enormous. For dumbbell-only training at 70&nbsp;kg
+          bodyweight it is not a limitation you will ever meet. 28&nbsp;mm standard with locknuts
+          is correct. On "19 inch" — 45&nbsp;cm is 17.7", already the upper end of comfortable.
+          Longer bars clip your ribcage on bench press and your ears overhead.
+        </p>
+      </div>
+
+      <div class="prose" style="margin-top:var(--s5)">
+        <h3>The plates</h3>
+        <p>
+          <strong>Cast iron only. Never 10&nbsp;kg or 20&nbsp;kg plates for dumbbells.</strong>
+          The 10&nbsp;kg disc is 295&nbsp;mm across and the 20&nbsp;kg is 360&nbsp;mm — on a
+          dumbbell that means the plate hangs to your knee on a row and hits the bench on a press.
+          Cast iron 5&nbsp;kg is 230&nbsp;mm against rubber's 252&nbsp;mm: denser, more compact,
+          exactly what a short bar wants.
+        </p>
+      </div>
+
+      <h4>Buy now — Phase 1 set</h4>
+      <div class="tablewrap" style="margin-top:var(--s3)">
+        <table>
+          <caption>Order today · covers every load you need for roughly the first year</caption>
+          <thead>
+            <tr><th>Item</th><th class="num">ID</th><th class="num">Qty</th><th class="num">Unit</th><th class="num">Total</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Threaded bar, 45&nbsp;cm</td><td class="num">8766096</td><td class="num">2</td><td class="num">₹999</td><td class="num">₹1,998</td></tr>
+            <tr><td>Cast iron plate, 1&nbsp;kg</td><td class="num">8816722</td><td class="num">8</td><td class="num">₹199</td><td class="num">₹1,592</td></tr>
+            <tr><td>Cast iron plate, 2&nbsp;kg</td><td class="num">8816723</td><td class="num">8</td><td class="num">₹399</td><td class="num">₹3,192</td></tr>
+            <tr><td>Cast iron plate, 5&nbsp;kg</td><td class="num">8816725</td><td class="num">4</td><td class="num">₹999</td><td class="num">₹3,996</td></tr>
+          </tbody>
+          <tfoot>
+            <tr><td colspan="4">Phase 1 total</td><td class="num">₹10,778</td></tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <h4>Buy later — only when you actually stall at 24.3&nbsp;kg</h4>
+      <div class="prose">
+        <p>
+          Around month 8–12: <strong>four more 5&nbsp;kg cast iron plates (ID
+          <span class="n">8816725</span>), ₹3,996.</strong> That puts two 5&nbsp;kg discs per side
+          and takes you to <span class="n">34.3&nbsp;kg</span> per dumbbell, still in exact 2&nbsp;kg
+          steps. Sleeve check: <span class="n">110&nbsp;mm</span> of plate against
+          <span class="n">150&nbsp;mm</span> of loading length. Fits with room spare.
+        </p>
+      </div>
+
+      <h4>The permanent ceiling</h4>
+      <div class="tablewrap" style="margin-top:var(--s3)">
+        <table>
+          <caption>Full set, both phases · 24 plates · this is everything you will ever need</caption>
+          <thead>
+            <tr><th>Plate</th><th class="num">Qty</th><th class="num">Mass</th><th>Per side, per bar</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1&nbsp;kg cast iron</td><td class="num">8</td><td class="num">8&nbsp;kg</td><td class="num">2</td></tr>
+            <tr><td>2&nbsp;kg cast iron</td><td class="num">8</td><td class="num">16&nbsp;kg</td><td class="num">2</td></tr>
+            <tr><td>5&nbsp;kg cast iron</td><td class="num">8</td><td class="num">40&nbsp;kg</td><td class="num">2</td></tr>
+          </tbody>
+          <tfoot>
+            <tr><td>Total</td><td class="num">24</td><td class="num">64&nbsp;kg</td><td class="num">34.3 kg / DB</td></tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <div class="note note--go" style="margin-top:var(--s5)">
+        <span class="note__tag">The answer to your question</span>
+        <p>
+          <strong>34.3&nbsp;kg per dumbbell is your ceiling and you will never need more.</strong>
+          A 70&nbsp;kg natural lifter pressing a pair of 34&nbsp;kg dumbbells for eight reps is a
+          genuinely strong intermediate-to-advanced lifter — a three-to-five-year destination.
+          Lifetime spend including bars: <strong>₹14,774</strong>.
+        </p>
+      </div>
+
+      <h4>Two small extras worth buying</h4>
+      <ul class="checklist" style="margin-top:var(--s3)">
+        <li><span class="i">01</span><span><strong>A looped assistance band, medium.</strong> You cannot do a pull-up yet, and this is the cleanest bridge. Decathlon stocks them.</span><span class="cost">~₹700–1,200</span></li>
+        <li><span class="i">02</span><span><strong>An exercise mat</strong> if you're on a hard floor — for floor work, and to keep cast iron off the tiles.</span><span class="cost">~₹500</span></li>
+      </ul>
+      <div class="prose" style="margin-top:var(--s4)">
+        <p>You do <strong>not</strong> need Smart Disc Collars. The locknuts come with the threaded bars.</p>
+      </div>
+    </section>
+
+    <!-- ============ LOADING CHART ============ -->
+    <section class="section" id="loading">
+      <div class="section__head">
+        <div class="section__kicker">Reference</div>
+        <h2>The loading chart</h2>
+      </div>
+      <div class="prose">
+        <p>
+          Bar and locknuts weigh <span class="n">2.3&nbsp;kg</span>. Everything below is
+          <strong>total dumbbell weight</strong> — the number you write in your log. Discs are drawn
+          at their true relative diameter, so you can load the bar from the picture without reading
+          the row.
+        </p>
+      </div>
+      <div class="tablewrap" style="margin-top:var(--s5)">
+        <table>
+          <caption>Every dumbbell weight from 4.3 kg to 34.3 kg in exact 2 kg steps</caption>
+          <thead>
+            <tr><th class="num">Dumbbell</th><th class="num">Per side</th><th>Plates per side</th><th class="num">Set</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="num">4.3 kg</td><td class="num">1 kg</td><td><span class="load"><span class="disc disc--1">1</span></span></td><td class="num">P1</td></tr>
+            <tr><td class="num">6.3 kg</td><td class="num">2 kg</td><td><span class="load"><span class="disc disc--2">2</span></span></td><td class="num">P1</td></tr>
+            <tr><td class="num">8.3 kg</td><td class="num">3 kg</td><td><span class="load"><span class="disc disc--2">2</span><span class="disc disc--1">1</span></span></td><td class="num">P1</td></tr>
+            <tr><td class="num">10.3 kg</td><td class="num">4 kg</td><td><span class="load"><span class="disc disc--2">2</span><span class="disc disc--2">2</span></span></td><td class="num">P1</td></tr>
+            <tr><td class="num">12.3 kg</td><td class="num">5 kg</td><td><span class="load"><span class="disc disc--5">5</span></span></td><td class="num">P1</td></tr>
+            <tr><td class="num">14.3 kg</td><td class="num">6 kg</td><td><span class="load"><span class="disc disc--5">5</span><span class="disc disc--1">1</span></span></td><td class="num">P1</td></tr>
+            <tr><td class="num">16.3 kg</td><td class="num">7 kg</td><td><span class="load"><span class="disc disc--5">5</span><span class="disc disc--2">2</span></span></td><td class="num">P1</td></tr>
+            <tr><td class="num">18.3 kg</td><td class="num">8 kg</td><td><span class="load"><span class="disc disc--5">5</span><span class="disc disc--2">2</span><span class="disc disc--1">1</span></span></td><td class="num">P1</td></tr>
+            <tr><td class="num">20.3 kg</td><td class="num">9 kg</td><td><span class="load"><span class="disc disc--5">5</span><span class="disc disc--2">2</span><span class="disc disc--2">2</span></span></td><td class="num">P1</td></tr>
+            <tr><td class="num">22.3 kg</td><td class="num">10 kg</td><td><span class="load"><span class="disc disc--5">5</span><span class="disc disc--2">2</span><span class="disc disc--2">2</span><span class="disc disc--1">1</span></span></td><td class="num">P1</td></tr>
+            <tr><td class="num">24.3 kg</td><td class="num">11 kg</td><td><span class="load"><span class="disc disc--5">5</span><span class="disc disc--2">2</span><span class="disc disc--2">2</span><span class="disc disc--1">1</span><span class="disc disc--1">1</span></span></td><td class="num">P1</td></tr>
+            <tr><td class="num">26.3 kg</td><td class="num">12 kg</td><td><span class="load"><span class="disc disc--5">5</span><span class="disc disc--5">5</span><span class="disc disc--2">2</span></span></td><td class="num">P2</td></tr>
+            <tr><td class="num">28.3 kg</td><td class="num">13 kg</td><td><span class="load"><span class="disc disc--5">5</span><span class="disc disc--5">5</span><span class="disc disc--2">2</span><span class="disc disc--1">1</span></span></td><td class="num">P2</td></tr>
+            <tr><td class="num">30.3 kg</td><td class="num">14 kg</td><td><span class="load"><span class="disc disc--5">5</span><span class="disc disc--5">5</span><span class="disc disc--2">2</span><span class="disc disc--2">2</span></span></td><td class="num">P2</td></tr>
+            <tr><td class="num">32.3 kg</td><td class="num">15 kg</td><td><span class="load"><span class="disc disc--5">5</span><span class="disc disc--5">5</span><span class="disc disc--2">2</span><span class="disc disc--2">2</span><span class="disc disc--1">1</span></span></td><td class="num">P2</td></tr>
+            <tr><td class="num">34.3 kg</td><td class="num">16 kg</td><td><span class="load"><span class="disc disc--5">5</span><span class="disc disc--5">5</span><span class="disc disc--2">2</span><span class="disc disc--2">2</span><span class="disc disc--1">1</span><span class="disc disc--1">1</span></span></td><td class="num">P2</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============ PHASE 0 ============ -->
+    <section class="section" id="phase0">
+      <div class="section__head">
+        <div class="section__kicker">Phase 0 · Weeks 1–4</div>
+        <h2>Foundation</h2>
+      </div>
+      <div class="prose">
+        <p>
+          You've never lifted. The single biggest cause of quitting in month one is destroying
+          yourself in week one and being unable to walk. So the first four weeks are deliberately,
+          almost frustratingly easy.
+        </p>
+      </div>
+
+      <div class="note note--stop" style="margin-top:var(--s4)">
+        <span class="note__tag">Read this twice</span>
+        <p>
+          Do not add extra sets. Do not go to failure. <strong>You should leave every session
+          feeling like you could have done twice as much.</strong> That feeling is the point.
+          Tendons adapt roughly three times slower than muscle — this month is for them.
+        </p>
+      </div>
+
+      <div class="card" style="margin-top:var(--s5)">
+        <div class="card__head">
+          <span class="card__day">Mon · Wed · Fri</span>
+          <span class="card__title">Full Body</span>
+          <span class="card__meta">3 × / week</span>
+        </div>
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th class="num">#</th><th>Exercise</th><th class="num">Sets × Reps</th><th class="num">Rest</th><th class="num">Week 1</th></tr></thead>
+            <tbody>
+              <tr><td class="num">1</td><td>Goblet Squat<span class="sub">One dumbbell held vertically at the chest. Sit down between your knees, heels flat.</span></td><td class="num">2 × 10</td><td class="num">90 s</td><td class="num">8.3 kg</td></tr>
+              <tr><td class="num">2</td><td>Flat DB Bench Press<span class="sub">Bench at 0°. Feet planted. Lower to the chest, elbows about 45° from the torso.</span></td><td class="num">2 × 10</td><td class="num">90 s</td><td class="num">6.3 kg</td></tr>
+              <tr><td class="num">3</td><td>One-Arm DB Row<span class="sub">Knee and hand on the bench, other foot on the floor. Pull to the hip, not the armpit.</span></td><td class="num">2 × 10 / side</td><td class="num">60 s</td><td class="num">8.3 kg</td></tr>
+              <tr><td class="num">4</td><td>Seated DB Shoulder Press<span class="sub">Bench at 80°. Press to just short of lockout.</span></td><td class="num">2 × 10</td><td class="num">90 s</td><td class="num">4.3 kg</td></tr>
+              <tr><td class="num">5</td><td>DB Romanian Deadlift<span class="sub">Soft knees. Push the hips <em>back</em>, feel the hamstrings stretch, stop at mid-shin.</span></td><td class="num">2 × 10</td><td class="num">90 s</td><td class="num">8.3 kg</td></tr>
+              <tr><td class="num">6</td><td>Assisted Chin-Up <em>or</em> Negative<span class="sub">Follow the four-step progression below.</span></td><td class="num">2 × 5</td><td class="num">90 s</td><td class="num">BW</td></tr>
+              <tr><td class="num">7</td><td>Plank<span class="sub">Straight line from head to heels.</span></td><td class="num">2 × 20–30 s</td><td class="num">45 s</td><td class="num">BW</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <h4>Week by week</h4>
+      <div class="ladder" style="margin-top:var(--s3)">
+        <div><span class="wk">Week 1</span><span class="kg">start</span><span class="reps">weights above · 2 sets</span></div>
+        <div><span class="wk">Week 2</span><span class="kg">same</span><span class="reps">same weights · 3 sets</span></div>
+        <div class="is-jump"><span class="wk">Week 3</span><span class="kg">+2 kg</span><span class="reps">every lift · back to 2 sets</span></div>
+        <div><span class="wk">Week 4</span><span class="kg">same</span><span class="reps">same weights · 3 sets</span></div>
+      </div>
+
+      <div class="prose" style="margin-top:var(--s5)">
+        <h4>Chin-up progression — follow in order</h4>
+        <ol>
+          <li><strong>Dead hang.</strong> Hang from the bar, shoulders pulled down, not shrugged into your ears. <span class="n">3 × 20 s</span>. Stay here until you can hang <span class="n">45 s</span>.</li>
+          <li><strong>Negatives.</strong> Step or jump to the top, chin over bar, then lower as slowly as you can. Target <span class="n">5 s</span> down. <span class="n">2 × 5</span>.</li>
+          <li><strong>Band-assisted chin-ups.</strong> Loop the band over the bar, foot in it. <span class="n">2 × 5</span>.</li>
+          <li><strong>Bodyweight chin-ups.</strong></li>
+        </ol>
+        <p>Most people get their first one somewhere in months two to four. It comes.</p>
+      </div>
+    </section>
+
+    <!-- ============ PHASE 1 ============ -->
+    <section class="section" id="phase1">
+      <div class="section__head">
+        <div class="section__kicker">Phase 1 · Weeks 5–16</div>
+        <h2>Upper / Lower</h2>
+      </div>
+      <div class="prose">
+        <p>This is the real program. Four days a week, indefinitely.</p>
+      </div>
+
+      <div class="calendar" style="margin-top:var(--s5)">
+        <div class="is-train"><span class="day">Mon</span><span class="what">Upper A</span><span class="mins">55 min</span></div>
+        <div class="is-train"><span class="day">Tue</span><span class="what">Lower A</span><span class="mins">45 min</span></div>
+        <div class="is-rest"><span class="day">Wed</span><span class="what">Rest</span><span class="mins">30–40 min walk</span></div>
+        <div class="is-train"><span class="day">Thu</span><span class="what">Upper B</span><span class="mins">55 min</span></div>
+        <div class="is-train"><span class="day">Fri</span><span class="what">Lower B</span><span class="mins">45 min</span></div>
+        <div class="is-rest"><span class="day">Sat</span><span class="what">Rest</span><span class="mins">30–40 min walk</span></div>
+        <div class="is-rest"><span class="day">Sun</span><span class="what">Rest</span><span class="mins">—</span></div>
+      </div>
+
+      <div class="note" style="margin-top:var(--s4)">
+        <span class="note__tag">If you miss a day</span>
+        <p>
+          Shift everything forward. Don't delete a session and don't double up. If a week only
+          allows three sessions, <strong>drop a Lower day — never an Upper day.</strong>
+        </p>
+      </div>
+
+      <div class="cards cards--2" style="margin-top:var(--s6)">
+
+        <article class="card">
+          <div class="card__head">
+            <span class="card__day">Monday</span>
+            <span class="card__title">Upper A</span>
+            <span class="card__meta">~55 min</span>
+          </div>
+          <div class="tablewrap">
+            <table>
+              <thead><tr><th class="num">#</th><th>Exercise</th><th class="num">Sets × Reps</th><th class="num">Rest</th></tr></thead>
+              <tbody>
+                <tr><td class="num">1</td><td>Flat DB Bench Press<span class="sub">Bench 0°. Sit with the dumbbells on your thighs, kick back as you lie down.</span></td><td class="num">4 × 6–10</td><td class="num">2 min</td></tr>
+                <tr><td class="num">2</td><td>Chin-Up <span class="sub">Supinated grip. Assisted or negatives until you can do 4. Add reps, not weight, until you reach 10.</span></td><td class="num">4 × 4–8</td><td class="num">2 min</td></tr>
+                <tr><td class="num">3</td><td>Seated DB Shoulder Press<span class="sub">Bench 80°. Back flat against the pad.</span></td><td class="num">3 × 8–12</td><td class="num">90 s</td></tr>
+                <tr><td class="num">4</td><td>One-Arm DB Row<span class="sub">Bench 0°. Pull toward the hip. Full stretch at the bottom.</span></td><td class="num">3 × 8–12 / side</td><td class="num">90 s</td></tr>
+                <tr><td class="num">5</td><td>DB Lateral Raise<span class="sub">Slight forward lean, pinky a touch high, stop at shoulder height.</span></td><td class="num">4 × 12–20</td><td class="num">60 s</td></tr>
+                <tr><td class="num">6</td><td>Incline DB Curl<span class="sub">Bench 45°. Arms hanging behind the torso — this is the growth position.</span></td><td class="num">3 × 10–15</td><td class="num">60 s</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card__head">
+            <span class="card__day">Tuesday</span>
+            <span class="card__title">Lower A</span>
+            <span class="card__meta">~45 min</span>
+          </div>
+          <div class="tablewrap">
+            <table>
+              <thead><tr><th class="num">#</th><th>Exercise</th><th class="num">Sets × Reps</th><th class="num">Rest</th></tr></thead>
+              <tbody>
+                <tr><td class="num">1</td><td>Goblet Squat<span class="sub">One dumbbell vertical at the chest. Full depth.</span></td><td class="num">3 × 8–12</td><td class="num">2 min</td></tr>
+                <tr><td class="num">2</td><td>DB Romanian Deadlift<span class="sub">Hips back, flat back, controlled 3-second lowering.</span></td><td class="num">3 × 8–12</td><td class="num">2 min</td></tr>
+                <tr><td class="num">3</td><td>Bulgarian Split Squat<span class="sub">Rear foot on the bench at 0°, dumbbell in each hand, front foot ~60 cm forward.</span></td><td class="num">3 × 8–12 / leg</td><td class="num">90 s</td></tr>
+                <tr><td class="num">4</td><td>Standing DB Calf Raise<span class="sub">Full stretch at the bottom, one-second pause at the top.</span></td><td class="num">3 × 12–20</td><td class="num">60 s</td></tr>
+                <tr><td class="num">5</td><td>Hanging Knee Raise<span class="sub">On the pull-up bar. Curl the pelvis up — don't just swing the legs.</span></td><td class="num">3 × 10–15</td><td class="num">60 s</td></tr>
+                <tr><td class="num">6</td><td>Decline Sit-Up<span class="sub">Use the bench's leg bar. Hold a plate on your chest once it's easy.</span></td><td class="num">3 × 12–20</td><td class="num">45 s</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card__head">
+            <span class="card__day">Thursday</span>
+            <span class="card__title">Upper B</span>
+            <span class="card__meta">~55 min</span>
+          </div>
+          <div class="tablewrap">
+            <table>
+              <thead><tr><th class="num">#</th><th>Exercise</th><th class="num">Sets × Reps</th><th class="num">Rest</th></tr></thead>
+              <tbody>
+                <tr><td class="num">1</td><td>Incline DB Press<span class="sub"><strong>Bench at 30°.</strong> This is the upper-chest shelf in every one of your reference photos.</span></td><td class="num">4 × 8–12</td><td class="num">2 min</td></tr>
+                <tr><td class="num">2</td><td>Pull-Up<span class="sub">Pronated, wider than a chin-up. This is the lat-width builder.</span></td><td class="num">4 × 4–8</td><td class="num">2 min</td></tr>
+                <tr><td class="num">3</td><td>Chest-Supported DB Row<span class="sub">Bench at 30°, lie face-down on it. Takes the lower back out of the equation.</span></td><td class="num">3 × 10–15</td><td class="num">90 s</td></tr>
+                <tr><td class="num">4</td><td>Standing DB Overhead Press<span class="sub">Squeeze the glutes. Don't lean back.</span></td><td class="num">3 × 8–12</td><td class="num">90 s</td></tr>
+                <tr><td class="num">5</td><td>DB Lateral Raise<span class="sub">Yes, again. Side delts respond to frequency more than any other muscle.</span></td><td class="num">4 × 12–20</td><td class="num">60 s</td></tr>
+                <tr><td class="num">6</td><td>DB Skullcrusher<span class="sub">Bench 0°. Lower beside your ears, elbows pointing at the ceiling.</span></td><td class="num">3 × 10–15</td><td class="num">60 s</td></tr>
+                <tr><td class="num">7</td><td>DB Hammer Curl<span class="sub">Neutral grip. Builds forearm and arm thickness.</span></td><td class="num">2 × 10–15</td><td class="num">45 s</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card__head">
+            <span class="card__day">Friday</span>
+            <span class="card__title">Lower B</span>
+            <span class="card__meta">~45 min</span>
+          </div>
+          <div class="tablewrap">
+            <table>
+              <thead><tr><th class="num">#</th><th>Exercise</th><th class="num">Sets × Reps</th><th class="num">Rest</th></tr></thead>
+              <tbody>
+                <tr><td class="num">1</td><td>DB Reverse Lunge<span class="sub">Step back, not forward — far kinder to the knees.</span></td><td class="num">3 × 10–12 / leg</td><td class="num">90 s</td></tr>
+                <tr><td class="num">2</td><td>DB Hip Thrust<span class="sub">Upper back on the bench edge at 0°, dumbbell across the hips on a folded towel.</span></td><td class="num">3 × 10–15</td><td class="num">90 s</td></tr>
+                <tr><td class="num">3</td><td>Single-Leg RDL<span class="sub">One dumbbell in the opposite hand. Balance is part of the exercise.</span></td><td class="num">3 × 8–12 / leg</td><td class="num">90 s</td></tr>
+                <tr><td class="num">4</td><td>Seated DB Calf Raise<span class="sub">Dumbbells on the knees, feet on a plate for extra stretch.</span></td><td class="num">3 × 15–20</td><td class="num">60 s</td></tr>
+                <tr><td class="num">5</td><td>Hanging Knee Raise<span class="sub">Controlled. No swinging.</span></td><td class="num">3 × 10–15</td><td class="num">60 s</td></tr>
+                <tr><td class="num">6</td><td>Side Plank<span class="sub">Hips stacked and lifted.</span></td><td class="num">3 × 20–40 s / side</td><td class="num">45 s</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ============ WARM-UP ============ -->
+    <section class="section" id="warmup">
+      <div class="section__head">
+        <div class="section__kicker">Six minutes · every session</div>
+        <h2>Warm-up</h2>
+      </div>
+      <div class="cards cards--2">
+        <article class="card">
+          <div class="card__head"><span class="card__title">Upper days</span><span class="card__meta">6 min</span></div>
+          <div class="tablewrap">
+            <table>
+              <tbody>
+                <tr><td class="num">1</td><td>Arm circles<span class="sub">15 forward, 15 back</span></td></tr>
+                <tr><td class="num">2</td><td>Band or towel pull-aparts<span class="sub">10 reps</span></td></tr>
+                <tr><td class="num">3</td><td>Scapular pull-ups<span class="sub">10 reps — hang, shrug down, no elbow bend</span></td></tr>
+                <tr><td class="num">4</td><td>Push-ups<span class="sub">10 reps</span></td></tr>
+                <tr><td class="num">5</td><td>Ramp-up on exercise 1 only<span class="sub">One set of 8 at 50%, one set of 5 at 75%. Then start counting sets.</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card__head"><span class="card__title">Lower days</span><span class="card__meta">6 min</span></div>
+          <div class="tablewrap">
+            <table>
+              <tbody>
+                <tr><td class="num">1</td><td>Bodyweight squats<span class="sub">20 reps</span></td></tr>
+                <tr><td class="num">2</td><td>Leg swings<span class="sub">10 per leg, front to back</span></td></tr>
+                <tr><td class="num">3</td><td>Unloaded hip hinges<span class="sub">10 reps</span></td></tr>
+                <tr><td class="num">4</td><td>Ramp-up on exercise 1 only<span class="sub">One set of 8 at 50%, one set of 5 at 75%.</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+      </div>
+      <div class="prose" style="margin-top:var(--s4)">
+        <p>No static stretching before lifting. Save it for after, or for rest days.</p>
+      </div>
+    </section>
+
+    <!-- ============ PROGRESSION ============ -->
+    <section class="section" id="progression">
+      <div class="section__head">
+        <div class="section__kicker">The engine</div>
+        <h2>Progression</h2>
+      </div>
+      <div class="prose">
+        <p>
+          This is the part that makes the plan work. Every exercise has a <strong>rep range</strong>
+          and a <strong>set count</strong>. You climb the reps, then you add weight and start again.
+          That's the whole method.
+        </p>
+      </div>
+
+      <h4>Double progression, worked through</h4>
+      <div class="ladder" style="margin-top:var(--s3)">
+        <div><span class="wk">Week 1</span><span class="kg">12 kg</span><span class="reps">8 · 8 · 8</span></div>
+        <div><span class="wk">Week 2</span><span class="kg">12 kg</span><span class="reps">9 · 9 · 8</span></div>
+        <div><span class="wk">Week 3</span><span class="kg">12 kg</span><span class="reps">10 · 10 · 9</span></div>
+        <div><span class="wk">Week 4</span><span class="kg">12 kg</span><span class="reps">11 · 10 · 10</span></div>
+        <div><span class="wk">Week 5</span><span class="kg">12 kg</span><span class="reps">12 · 12 · 11</span></div>
+        <div><span class="wk">Week 6</span><span class="kg">12 kg</span><span class="reps">12 · 12 · 12 ← top of range</span></div>
+        <div class="is-jump"><span class="wk">Week 7</span><span class="kg">14 kg</span><span class="reps">8 · 8 · 8 ← add weight, restart</span></div>
+      </div>
+
+      <div class="prose" style="margin-top:var(--s5)">
+        <h4>The six rules</h4>
+        <ol>
+          <li><strong>Pick your starting weight</strong> so you can hit the <em>bottom</em> of the range with about 3 reps left in reserve. If the range is 8–12, pick a weight you could do 11 times — and stop at 8.</li>
+          <li><strong>Every session, try to add one rep to each set.</strong> Same weight.</li>
+          <li><strong>Only add weight when <em>all</em> sets hit the top of the range</strong> with clean form. Not two out of three. All of them.</li>
+          <li><strong>The jump is +2 kg per dumbbell</strong> — one 1 kg plate per side. That's your smallest increment and it's the right one.</li>
+          <li><strong>A rep drop after a jump is normal.</strong> Twelve reps becoming seven is expected. Grind back up.</li>
+          <li><strong>If you fail to add a rep on any set two sessions running</strong>, drop 4 kg per dumbbell and rebuild. This happens maybe twice a year. It's the system working, not failing.</li>
+        </ol>
+      </div>
+
+      <h4>Effort level</h4>
+      <div class="tablewrap" style="margin-top:var(--s3)">
+        <table>
+          <caption>RIR = reps in reserve · how many you could still have done</caption>
+          <thead><tr><th>Period</th><th class="num">Target RIR</th><th>What that feels like</th></tr></thead>
+          <tbody>
+            <tr><td>Weeks 1–4 · Phase 0</td><td class="num">3–4</td><td>Comfortably short of failure</td></tr>
+            <tr><td>Weeks 5–10</td><td class="num">2–3</td><td>Hard but clean</td></tr>
+            <tr><td>Weeks 11–16</td><td class="num">1–2</td><td>The last rep is a genuine grind</td></tr>
+            <tr><td>Isolation work<span class="sub">Laterals, curls, calves</span></td><td class="num">0–1</td><td>Take these close to failure — they're safe to</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="note note--stop" style="margin-top:var(--s5)">
+        <span class="note__tag">Safety · no rack, no spotter</span>
+        <p>
+          <strong>Never take DB bench press or overhead press to true failure.</strong> If you can't
+          complete a rep on bench, don't fight it — let the dumbbells drop out to the sides as you
+          sit up. Practise that once with a light weight so the movement is automatic when you need it.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ BLOCKS ============ -->
+    <section class="section" id="blocks">
+      <div class="section__head">
+        <div class="section__kicker">The long view</div>
+        <h2>Blocks and deloads</h2>
+      </div>
+      <div class="prose">
+        <p>
+          <strong>Every eight weeks, take a deload week.</strong> Same exercises, half the sets,
+          60% of the weight. You will feel like you're wasting a week. You are not — this is where
+          tendons catch up and accumulated fatigue clears. The people who skip deloads are the
+          people who get hurt in month seven.
+        </p>
+      </div>
+
+      <div class="tablewrap" style="margin-top:var(--s5)">
+        <table>
+          <caption>The rotation · repeat indefinitely</caption>
+          <thead><tr><th class="num">Weeks</th><th>What you run</th></tr></thead>
+          <tbody>
+            <tr><td class="num">1–4</td><td><strong>Phase 0</strong> — Foundation, 3 days full body</td></tr>
+            <tr><td class="num">5–16</td><td><strong>Block 1</strong> — Upper/Lower as written above</td></tr>
+            <tr><td class="num">17</td><td>Deload</td></tr>
+            <tr><td class="num">18–29</td><td><strong>Block 2</strong> — same structure, swapped exercises</td></tr>
+            <tr><td class="num">30</td><td>Deload</td></tr>
+            <tr><td class="num">31–42</td><td><strong>Block 1</strong> again, at far heavier weights</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>Block 2 swaps</h4>
+      <div class="tablewrap" style="margin-top:var(--s3)">
+        <table>
+          <caption>New angles, same structure — keeps the joints fresh and the mind engaged</caption>
+          <thead><tr><th>Block 1</th><th>Block 2</th></tr></thead>
+          <tbody>
+            <tr><td>Flat DB Bench Press</td><td>DB Floor Press <em>or</em> Deficit Push-Up (hands on dumbbells)</td></tr>
+            <tr><td>Incline DB Press, 30°</td><td>Incline DB Press, <strong>45°</strong></td></tr>
+            <tr><td>Seated DB Shoulder Press</td><td>Arnold Press</td></tr>
+            <tr><td>One-Arm DB Row</td><td>DB Meadows-style Row <span class="sub">One dumbbell, staggered stance</span></td></tr>
+            <tr><td>Incline DB Curl</td><td>Concentration Curl</td></tr>
+            <tr><td>DB Skullcrusher</td><td>Overhead DB Triceps Extension</td></tr>
+            <tr><td>Goblet Squat</td><td>DB Front-Rack Squat <span class="sub">Dumbbells on the shoulders</span></td></tr>
+            <tr><td>Bulgarian Split Squat</td><td>DB Step-Up <span class="sub">Onto the bench</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="prose" style="margin-top:var(--s4)">
+        <p>This is a plan you can run for five years. The exercises rotate; the method never changes.</p>
+      </div>
+    </section>
+
+    <!-- ============ NUTRITION ============ -->
+    <section class="section" id="food">
+      <div class="section__head">
+        <div class="section__kicker">No calorie counting</div>
+        <h2>Nutrition, in four rules</h2>
+      </div>
+      <div class="prose">
+        <p>You don't need to track. You need four rules and a bathroom scale.</p>
+
+        <h3>Rule 1 — Protein: about 120 g a day</h3>
+        <p>
+          Roughly <span class="n">1.8&nbsp;g</span> per kg. Don't weigh it — count portions.
+          <strong>One palm-sized serving of a protein food is about 25–30&nbsp;g.</strong>
+          You need <strong>four of them a day</strong>, spread out.
+        </p>
+        <p>
+          Palm-sized servings: 150&nbsp;g chicken · 2 eggs plus 100&nbsp;g paneer · 150&nbsp;g fish ·
+          200&nbsp;g Greek yoghurt · one scoop of whey · 250&nbsp;g dal with rice (weaker — count it
+          as 0.7).
+        </p>
+        <p>
+          If you're vegetarian this is the hardest part of the whole plan, and whey protein is
+          worth the money. Two scoops a day covers half your target.
+        </p>
+
+        <h3>Rule 2 — Gain slowly: 0.5–0.75 kg a month</h3>
+        <p>
+          That's roughly <strong>+250 kcal above maintenance</strong> — for you, one extra
+          meaningful snack a day. A handful of nuts and a banana. A glass of full-fat milk with
+          peanut butter. That's it.
+        </p>
+        <p>
+          Gaining faster than <span class="n">1&nbsp;kg</span> a month at your training age adds
+          fat, not muscle — and fat is precisely what stands between you and those photos.
+          At this rate: <strong>64.5&nbsp;kg → 70&nbsp;kg in roughly 9–11 months</strong>, and as a
+          total beginner training four days a week, the great majority of it will be muscle.
+        </p>
+
+        <h3>Rule 3 — The weigh-in protocol</h3>
+        <p>
+          Weigh yourself <strong>every morning</strong>: after the bathroom, before eating, same
+          conditions. Daily weight swings 1–2&nbsp;kg from water and food, so ignore individual days
+          entirely. Every Sunday, average the week's seven numbers. <strong>That average is your
+          only real data point.</strong>
+        </p>
+      </div>
+
+      <div class="tablewrap" style="margin-top:var(--s4)">
+        <table>
+          <caption>Adjustment rule · check once a month, not once a week</caption>
+          <thead><tr><th>4-week average change</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td class="num">&lt; 0.3 kg</td><td>Add one more snack per day</td></tr>
+            <tr><td class="num">0.3 – 0.9 kg</td><td><strong style="color:var(--good)">Perfect. Change nothing.</strong></td></tr>
+            <tr><td class="num">&gt; 1.2 kg</td><td>Remove one snack per day</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="prose" style="margin-top:var(--s5)">
+        <h3>Rule 4 — When to stop gaining</h3>
+        <p>Two triggers, whichever comes first:</p>
+        <ul>
+          <li>You hit <strong>70&nbsp;kg</strong>, or</li>
+          <li>Your <strong>abs stop being visible in normal light</strong> — not flexed, not in a mirror at a good angle, just standing there</li>
+        </ul>
+        <p>
+          When either happens, stop adding calories and <strong>hold your weight flat for 4–8
+          weeks</strong> while you keep training. You'll keep getting stronger and slowly leaner.
+        </p>
+        <p>
+          If you've added noticeable fat, run a <strong>mini-cut</strong>: drop about 400 kcal a day
+          for 6–8 weeks, keep protein at 120&nbsp;g, and keep lifting the <em>exact same program at
+          the exact same weights</em>. Lose 0.4–0.5&nbsp;kg a week, no faster. Then return to
+          maintenance.
+        </p>
+        <p>
+          Slow gain → hold → short cut → slow gain. That cycle is how you live in the 12–15% range
+          permanently instead of yo-yoing.
+        </p>
+
+        <h3>Cardio, steps and sleep</h3>
+        <ul>
+          <li><strong>8,000–10,000 steps a day.</strong> The most underrated tool for staying lean without dieting hard, and it costs you no recovery.</li>
+          <li>Two easy 30-minute walks, Wednesday and Saturday, as scheduled.</li>
+          <li><strong>No running, no HIIT.</strong> They eat recovery and buy you little at your bodyweight. If you enjoy them, cap at one session a week and put it on Saturday.</li>
+          <li><strong>Sleep 7.5–8 hours.</strong> Non-negotiable. Under-sleeping kills recovery, kills training performance, and drives appetite for exactly the wrong foods. Given the choice between an extra workout and an extra hour of sleep — sleep.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ LOG ============ -->
+    <section class="section" id="log">
+      <div class="section__head">
+        <div class="section__kicker">Non-negotiable</div>
+        <h2>The log</h2>
+      </div>
+      <div class="prose">
+        <p>Keep a note on your phone. One line per exercise.</p>
+      </div>
+      <pre style="margin-top:var(--s4)"><span class="c">2026-07-27  UPPER A</span>
+
+Flat DB Bench    <b>12.3kg</b>  9,9,8,8
+Chin-up          <b>BW+band</b> 5,5,4,4
+Seated Press     <b> 8.3kg</b>  11,10,10
+1-Arm Row        <b>14.3kg</b>  12,11,11
+Lat Raise        <b> 6.3kg</b>  15,14,13,12
+Incline Curl     <b> 6.3kg</b>  13,12,11
+
+<span class="c">Notes:</span> bench felt strong, add a rep next week</pre>
+      <div class="prose" style="margin-top:var(--s4)">
+        <p>
+          Write the weight as <strong>total dumbbell weight</strong> — bar plus plates — not the
+          per-side load. You cannot run double progression from memory.
+          <strong>The log is the program.</strong>
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ TIMELINE ============ -->
+    <section class="section" id="timeline">
+      <div class="section__head">
+        <div class="section__kicker">What to expect</div>
+        <h2>Timeline</h2>
+      </div>
+      <ul class="timeline">
+        <li><span class="when">Month 1</span>Movements start feeling natural. Little visible change. This is normal and it is not a sign anything is wrong.</li>
+        <li><span class="when">Month 3</span>Around <span class="n">66&nbsp;kg</span>. First unassisted chin-ups. Shoulders visibly rounder. Clothes fit differently.</li>
+        <li><span class="when">Month 6</span>Around <span class="n">67–68&nbsp;kg</span>. The upper-chest shelf appears. Lat spread visible from behind. Bench around <span class="n">20&nbsp;kg</span> per hand.</li>
+        <li><span class="when">Month 9–11</span>Around <span class="n">70&nbsp;kg</span>. This is where people start commenting.</li>
+        <li class="is-goal"><span class="when">Month 12–14 · the target</span>Hold weight, or a short mini-cut, landing at <span class="n">68–70&nbsp;kg</span> and roughly <span class="n">12–13%</span>. <strong>This is the photo.</strong></li>
+        <li><span class="when">Year 2–3</span>Same bodyweight, better everywhere. Bench <span class="n">26–30&nbsp;kg</span> per hand. A genuinely impressive physique.</li>
+      </ul>
+      <div class="note note--go" style="margin-top:var(--s5)">
+        <span class="note__tag">What actually decides this</span>
+        <p>
+          Two things determine whether you get there, and neither is exercise selection:
+          <strong>did you train four times a week for a hundred weeks</strong>, and
+          <strong>did you log every session so the progression was real rather than imagined.</strong>
+          Everything above is built so that both stay easy. Nothing in it should ever leave you too
+          wrecked to show up on Thursday.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ START ============ -->
+    <section class="section" id="start">
+      <div class="section__head">
+        <div class="section__kicker">Today</div>
+        <h2>Start here</h2>
+      </div>
+      <ul class="checklist">
+        <li><span class="i">01</span><span>Order <strong>2 × bar</strong> (8766096), <strong>8 × 1 kg</strong> (8816722), <strong>8 × 2 kg</strong> (8816723), <strong>4 × 5 kg</strong> (8816725)</span><span class="cost">₹10,778</span></li>
+        <li><span class="i">02</span><span>Order a <strong>medium looped assistance band</strong></span><span class="cost">~₹900</span></li>
+        <li><span class="i">03</span><span>Start <strong>Phase 0</strong> the day it arrives — Mon/Wed/Fri, the exact weights in the table</span><span class="cost">—</span></li>
+        <li><span class="i">04</span><span>Weigh yourself <strong>every morning</strong> from day one</span><span class="cost">—</span></li>
+        <li><span class="i">05</span><span>Start <strong>the log</strong></span><span class="cost">—</span></li>
+      </ul>
+
+      <div class="foot">
+        <p>
+          Written for one person and one set of equipment: a Corength 500 folding bench, two
+          45&nbsp;cm threaded bars and 64&nbsp;kg of 28&nbsp;mm cast iron. Not medical advice —
+          if something hurts in a joint rather than a muscle, stop the exercise and get it looked at.
+        </p>
+        <p>Revision 1 · July 2026</p>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ---- Theme toggle: explicit choice persists, otherwise follow the OS ---- */
+  var root = document.documentElement;
+  var btn = document.getElementById("themeBtn");
+  var label = document.getElementById("themeLabel");
+  var media = window.matchMedia("(prefers-color-scheme: dark)");
+
+  function currentlyDark() {
+    var set = root.getAttribute("data-theme");
+    if (set) { return set === "dark"; }
+    return media.matches;
+  }
+  function sync() {
+    label.textContent = currentlyDark() ? "Light" : "Dark";
+    btn.setAttribute("aria-label", "Switch to " + (currentlyDark() ? "light" : "dark") + " theme");
+  }
+  try {
+    var saved = localStorage.getItem("physique-theme");
+    if (saved === "dark" || saved === "light") { root.setAttribute("data-theme", saved); }
+  } catch (e) { /* storage unavailable — fall back to OS preference */ }
+
+  btn.addEventListener("click", function () {
+    var next = currentlyDark() ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    try { localStorage.setItem("physique-theme", next); } catch (e) {}
+    sync();
+  });
+  media.addEventListener("change", sync);
+  sync();
+
+  /* ---- Rail: highlight the section you're reading ---- */
+  var links = Array.prototype.slice.call(document.querySelectorAll("#rail a"));
+  var byId = {};
+  links.forEach(function (a) { byId[a.getAttribute("href").slice(1)] = a; });
+
+  var sections = Array.prototype.slice.call(document.querySelectorAll("main section[id]"));
+  if ("IntersectionObserver" in window) {
+    var visible = {};
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { visible[en.target.id] = en.isIntersecting; });
+      var active = null;
+      for (var i = 0; i < sections.length; i++) {
+        if (visible[sections[i].id]) { active = sections[i].id; break; }
+      }
+      links.forEach(function (a) { a.classList.remove("is-active"); });
+      if (active && byId[active]) { byId[active].classList.add("is-active"); }
+    }, { rootMargin: "-10% 0px -70% 0px", threshold: 0 });
+    sections.forEach(function (s) { io.observe(s); });
+  }
+})();
+</script>
+
+</body>
+</html>
